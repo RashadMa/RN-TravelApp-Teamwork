@@ -1,11 +1,19 @@
-import { StyleSheet, Text, View } from 'react-native'
+import { NavigationContainer } from '@react-navigation/native'
 import React from 'react'
+import { StyleSheet } from 'react-native'
+import SplashScreen from './src/screens/splash/SplashScreen'
+import { FirstLoginProvider } from './src/context/FirstLoginContext'
+
 
 const App = () => {
   return (
-    <View>
-      <Text>App</Text>
-    </View>
+    <>
+      <NavigationContainer>
+        <FirstLoginProvider>
+          <SplashScreen />
+        </FirstLoginProvider>
+      </NavigationContainer>
+    </>
   )
 }
 
