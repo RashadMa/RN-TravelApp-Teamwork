@@ -6,7 +6,6 @@ import SplashScreen from './src/screens/splash/SplashScreen'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
 const App = () => {
-  AsyncStorage.clear();
   return (
     <>
       <NavigationContainer>
