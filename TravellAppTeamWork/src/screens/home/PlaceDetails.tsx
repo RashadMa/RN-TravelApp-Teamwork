@@ -1,6 +1,8 @@
 import { Image, SafeAreaView, StyleSheet, Text, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { BaseNetwork } from '../../network/api';
+import MapView, { Marker } from 'react-native-maps';
+
 
 const PlaceDetails = ({ route }: any) => {
   const [detail, setDetail] = useState<any>({});
@@ -9,8 +11,9 @@ const PlaceDetails = ({ route }: any) => {
 
   useEffect(() => {
     let baseNetwork = new BaseNetwork();
-    baseNetwork.getById('places', id)
+    baseNetwork.getById('places/', id)
       .then(data => {
+        console.log('data', data);
         setDetail(data);
         setloading(false);
       })
@@ -18,15 +21,51 @@ const PlaceDetails = ({ route }: any) => {
         console.log('Error ', err);
       })
   }, [])
-console.log(detail, 'detail');
+
+
+
+    const initialRegion = {
+      latitude: 40.4093,
+      longitude: 49.8671,
+      latitudeDelta: 0.0922,
+      longitudeDelta: 0.0421,
+    };
+
 
   return (
-    <SafeAreaView>
+    <SafeAreaView style={styles.container}>
       <View style={{ margin: 15 }}>
-<View>
-<Image source={{ uri: detail.imageUrl }} style={{ width: '100%', height: 253, resizeMode: "cover" }} />
-</View>
-      <Text>PlaceDetails</Text>
+        <View style={styles.detailWrapper}>
+          <Image source={{ uri: detail.imageUrl }} style={{ width: '100%', height: 253, resizeMode: "cover", borderRadius: 12 }} />
+          <View style={styles.cardFooter}>
+            <Text style={styles.detailName}>{detail.name}</Text>
+            <Text style={styles.detailRate}>⭐️ {detail.rate}</Text>
+          </View>
+        </View>
+        <View style={styles.infoWrapper}>
+          <View>
+            <Text style={styles.info}>
+              Information
+            </Text>
+          </View>
+          <View>
+            <Text style={styles.infoText}>🕘  Mon - Fri, {detail.openCloseTime}</Text>
+            <Text style={styles.infoText}>📞  {detail.phone}</Text>
+            <Text style={styles.infoText}>📍  {detail.adress}</Text>
+          </View>
+        </View>
+        <View style={styles.mapWrapper}>
+        <MapView
+      style={styles.map}
+      initialRegion={initialRegion}
+    >
+      <Marker
+        coordinate={{ latitude: 40.4093, longitude: 49.8671 }}
+        title="Marker Title"
+        description="Marker Description"
+      />
+    </MapView>
+        </View>
       </View>
     </SafeAreaView>
   )
@@ -41,4 +80,47 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     transform: [{ translateY: 400 }],
   },
+  container: {
+    backgroundColor: '#1c1c1c',
+    flex: 1,
+  },
+  detailWrapper: {
+  },
+  cardFooter: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginTop: 20,
+  },
+  detailName: {
+    color: '#fff',
+    fontSize: 20,
+    fontWeight: '600',
+    width: '50%',
+  },
+  detailRate: {
+    color: '#fff',
+    fontSize: 14,
+    fontWeight: '500',
+  },
+  infoWrapper: {
+    marginTop: 25,
+  },
+  info: {
+    color: '#E8E8E8',
+    fontSize: 16,
+    fontWeight: '500',
+    marginBottom: 20,
+  },
+  infoText: {
+    color: '#B9B9B9',
+    fontSize: 14,
+    fontWeight: '400',
+    marginBottom: 12,
+  },
+  mapWrapper: {},
+  map: {
+    width: '100%',
+    height: 200,
+  }
 })
