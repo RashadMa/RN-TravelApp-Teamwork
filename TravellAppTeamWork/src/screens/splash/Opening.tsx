@@ -5,7 +5,7 @@ import SplashStack from '../../navigation/stacks/splash/SplashStack';
 import { FirstLoginContext } from '../../context/FirstLoginContext';
 import { getUserCategories } from '../../utils/storage/userSavedCategoriesHelper';
 
-const SplashScreen = () => {
+const Opening = () => {
       const [loading, setloading] = useState<boolean>(true);
 
       let { firstLogin, setFirstLogin } = useContext(FirstLoginContext);
@@ -38,6 +38,6 @@ const SplashScreen = () => {
       }
 }
 
-export default SplashScreen
+export default Opening
 
 const styles = StyleSheet.create({})
