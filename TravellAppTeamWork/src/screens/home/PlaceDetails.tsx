@@ -1,8 +1,7 @@
-import { Image, SafeAreaView, StyleSheet, Text, View } from 'react-native'
+import { Image, SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { BaseNetwork } from '../../network/api';
 import MapView, { Marker } from 'react-native-maps';
-
 
 const PlaceDetails = ({ route }: any) => {
   const [detail, setDetail] = useState<any>({});
@@ -24,19 +23,19 @@ const PlaceDetails = ({ route }: any) => {
 
 
 
-    const initialRegion = {
-      latitude: 40.4093,
-      longitude: 49.8671,
-      latitudeDelta: 0.0922,
-      longitudeDelta: 0.0421,
-    };
+  const initialRegion = {
+    latitude: 40.4093,
+    longitude: 49.8671,
+    latitudeDelta: 0.0922,
+    longitudeDelta: 0.0421,
+  };
 
 
   return (
     <SafeAreaView style={styles.container}>
       <View style={{ margin: 15 }}>
         <View style={styles.detailWrapper}>
-          <Image source={{ uri: detail.imageUrl }} style={{ width: '100%', height: 253, resizeMode: "cover", borderRadius: 12 }} />
+          <Image source={{ uri: detail.imageUrl }} style={{ width: '100%', height: 220, resizeMode: "cover", borderRadius: 12 }} />
           <View style={styles.cardFooter}>
             <Text style={styles.detailName}>{detail.name}</Text>
             <Text style={styles.detailRate}>⭐️ {detail.rate}</Text>
@@ -55,16 +54,24 @@ const PlaceDetails = ({ route }: any) => {
           </View>
         </View>
         <View style={styles.mapWrapper}>
-        <MapView
-      style={styles.map}
-      initialRegion={initialRegion}
-    >
-      <Marker
-        coordinate={{ latitude: 40.4093, longitude: 49.8671 }}
-        title="Marker Title"
-        description="Marker Description"
-      />
-    </MapView>
+          <View>
+            <Text style={styles.mapText}>
+              Map
+            </Text>
+          </View>
+          <MapView
+            style={styles.map}
+            initialRegion={initialRegion}
+          >
+            <Marker
+              coordinate={{ latitude: detail.lat, longitude: detail.long }}
+              title="Marker Title"
+              description="Marker Description"
+            />
+          </MapView>
+          <TouchableOpacity style={styles.mapButton}>
+            <Text style={styles.btnText}>Go to map</Text>
+          </TouchableOpacity>
         </View>
       </View>
     </SafeAreaView>
@@ -96,7 +103,7 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 20,
     fontWeight: '600',
-    width: '50%',
+    width: '80%',
   },
   detailRate: {
     color: '#fff',
@@ -104,23 +111,45 @@ const styles = StyleSheet.create({
     fontWeight: '500',
   },
   infoWrapper: {
-    marginTop: 25,
+    marginTop: 20,
   },
   info: {
     color: '#E8E8E8',
     fontSize: 16,
     fontWeight: '500',
-    marginBottom: 20,
+    marginBottom: 15,
   },
   infoText: {
     color: '#B9B9B9',
     fontSize: 14,
     fontWeight: '400',
-    marginBottom: 12,
+    marginBottom: 10,
   },
-  mapWrapper: {},
+  mapWrapper: {
+    // marginTop: 20,
+  },
   map: {
     width: '100%',
-    height: 200,
+    height: 170,
+    borderRadius: 12,
+  },
+  mapText: {
+    color: '#E8E8E8',
+    fontSize: 16,
+    fontWeight: '500',
+    marginBottom: 15,
+  },
+  mapButton: {
+    backgroundColor: "#018CF1",
+    borderRadius: 8,
+    marginTop: 20,
+    height: 48,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  btnText: {
+    color: '#fff',
+    fontSize: 16,
+    fontWeight: '500',
   }
 })
