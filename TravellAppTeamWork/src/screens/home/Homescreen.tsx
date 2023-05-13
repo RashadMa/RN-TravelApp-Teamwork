@@ -1,8 +1,9 @@
 import { FlatList, Image, SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { BaseNetwork } from '../../network/api';
+import { ActivityIndicator } from 'react-native-paper';
 
-const Homescreen = () => {
+const Homescreen = ({navigation}: any) => {
   const [restaurant, setRestaurant] = useState<any[]>([]);
   const [hotels, setHotels] = useState<any[]>([]);
 
@@ -24,7 +25,7 @@ const Homescreen = () => {
 
   const renderItem = ({ item }: any) => {
     return (<>
-      <TouchableOpacity style={styles.restaurants}>
+      <TouchableOpacity onPress={() => navigation.navigate('placesdetails', { id: item.id })} style={styles.restaurants}>
         <View style={styles.bookmarkWrapper}>
           <Image style={styles.bookmark}
             source={require('../../assets/icons/bookmark.png')}
@@ -47,37 +48,38 @@ const Homescreen = () => {
         </View>
       </TouchableOpacity>
     </>
-
     )
   }
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={{ margin: 15 }}>
-        <View style={styles.headerWrapper}>
-          <Text style={styles.headerText}>Restaurants nearby</Text>
-          <View>
-            <FlatList
-              data={restaurant}
-              renderItem={renderItem}
-              horizontal={true}
-              showsHorizontalScrollIndicator={false}
-            />
+      <ActivityIndicator style={styles.loading} animating={loading} />
+      {
+        loading ? <></> : <View style={{ margin: 15 }}>
+          <View style={styles.headerWrapper}>
+            <Text style={styles.headerText}>Restaurants nearby</Text>
+            <View>
+              <FlatList
+                data={restaurant}
+                renderItem={renderItem}
+                horizontal={true}
+                showsHorizontalScrollIndicator={false}
+              />
+            </View>
+          </View>
+          <View style={styles.headerWrapper}>
+            <Text style={styles.headerText}>Hotels nearby</Text>
+            <View>
+              <FlatList
+                data={hotels}
+                renderItem={renderItem}
+                horizontal={true}
+                showsHorizontalScrollIndicator={false}
+              />
+            </View>
           </View>
         </View>
-        <View style={styles.headerWrapper}>
-          <Text style={styles.headerText}>Hotels nearby</Text>
-          <View>
-            <FlatList
-              data={hotels}
-              renderItem={renderItem}
-              horizontal={true}
-              showsHorizontalScrollIndicator={false}
-            />
-          </View>
-        </View>
-
-      </View>
+      }
     </SafeAreaView>
   )
 }
@@ -133,5 +135,11 @@ const styles = StyleSheet.create({
     backgroundColor: '#1C1C1C',
     padding: 10,
     borderRadius: 50,
-  }
+  },
+  loading: {
+    color: '#E0783E',
+    justifyContent: 'center',
+    alignItems: 'center',
+    transform: [{ translateY: 400 }],
+  },
 })

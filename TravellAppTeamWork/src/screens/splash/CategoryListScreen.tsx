@@ -153,7 +153,7 @@ const styles = StyleSheet.create({
             marginBottom: 16,
       },
       loading: {
-            color: '#5956E9',
+            color: '#E0783E',
             justifyContent: 'center',
             alignItems: 'center',
             transform: [{ translateY: 400 }],
