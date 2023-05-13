@@ -5,11 +5,13 @@ import { FirstLoginContext } from '../../context/FirstLoginContext';
 import { BaseNetwork } from '../../network/api';
 import { userSavedCategoriesHelper } from '../../utils/storage/userSavedCategoriesHelper';
 import { Category } from '../../interfaces/Category';
+import { ActivityIndicator } from 'react-native-paper';
 
 const CategoryListScren = ({ navigation }: any) => {
       const [categories, setCategories] = useState<Category[]>([]);
       const [categoriesData, setCategoriesData] = useState<Category[]>([]);
       const { firstLogin, setFirstLogin } = useContext(FirstLoginContext);
+      const [loading, setloading] = useState(true)
       const categoryOperation = (item: Category) => {
             let categoryControl = categories.find(q => q.id == item.id);
             if (categoryControl) {
@@ -27,6 +29,7 @@ const CategoryListScren = ({ navigation }: any) => {
                   .then(data => {
                         setCategories(data);
                         setCategoriesData(data);
+                        setloading(false);
                   })
                   .catch(err => {
                         console.log('Error ', err);
@@ -67,23 +70,26 @@ const CategoryListScren = ({ navigation }: any) => {
       }
       return (
             <SafeAreaView style={styles.container}>
-                  <View style={{ margin: 15 }}>
-                        <View style={styles.textWrapper}>
-                              <Text style={styles.title}>Choose your interest</Text>
-                              <Text style={styles.desc}>Select at least 2 options that we can suggest you on the home page.</Text>
+                  <ActivityIndicator style={styles.loading} animating={loading} />
+                  {
+                        loading ? <></> : <View style={{ marginHorizontal: 15 }}>
+                              <View style={styles.textWrapper}>
+                                    <Text style={styles.title}>Choose your interest</Text>
+                                    <Text style={styles.desc}>Select at least 2 options that we can suggest you on the home page.</Text>
+                              </View>
+                              <FlatList
+                                    data={categoriesData}
+                                    renderItem={renderItem}
+                                    numColumns={2}
+                              />
+                              <TouchableOpacity style={styles.btn} onPress={next}>
+                                    <Text style={styles.btnText}>
+                                          Next
+                                    </Text>
+                              </TouchableOpacity>
                         </View>
-                        <FlatList
-                              data={categoriesData}
-                              renderItem={renderItem}
-                              // keyExtractor={item => item.id}
-                              numColumns={2}
-                        />
-                        <TouchableOpacity style={styles.btn} onPress={next}>
-                              <Text style={styles.btnText}>
-                                    Next
-                              </Text>
-                        </TouchableOpacity>
-                  </View>
+                  }
+
             </SafeAreaView>
       )
 }
@@ -108,6 +114,7 @@ const styles = StyleSheet.create({
       },
       container: {
             backgroundColor: '#1c1c1c',
+            flex: 1,
       },
       box: {},
       icon: {
@@ -144,5 +151,11 @@ const styles = StyleSheet.create({
             height: 136,
             marginRight: 16,
             marginBottom: 16,
-      }
+      },
+      loading: {
+            color: '#E0783E',
+            justifyContent: 'center',
+            alignItems: 'center',
+            transform: [{ translateY: 400 }],
+      },
 })
