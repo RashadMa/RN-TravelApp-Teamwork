@@ -30,7 +30,6 @@ const Homescreen = () => {
             source={require('../../assets/icons/bookmark.png')}
           />
         </View>
-
         <Image source={{ uri: item.imageUrl }} style={{ width: '100%', height: 200, resizeMode: "cover" }} />
         <View style={{ padding: 10 }}>
           <Text style={styles.rstName}>{item.name}</Text>
