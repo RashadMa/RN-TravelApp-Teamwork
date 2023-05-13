@@ -1,9 +1,15 @@
-import {FlatList, StyleSheet, Text, View, SafeAreaView} from 'react-native';
 import React, {useRef, useState} from 'react';
+import {
+  FlatList,
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import OnboardingItem from '../../components/onboard/OnboardingItem';
-import {Button} from 'react-native-paper';
-import Onboard from '../../interfaces/Onboard';
 import Pagination from '../../components/onboard/Pagination';
+import Onboard from '../../interfaces/Onboard';
 
 const OnboardScreen = ({navigation}) => {
   const nextHandler = () => {
@@ -14,10 +20,8 @@ const OnboardScreen = ({navigation}) => {
       navigation.navigate('CategoryList');
     }
   };
-
   const [currentIndex, setCurrentIndex] = useState(0);
   const slidersRef = useRef(null);
-  console.log(slidersRef.current);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -30,10 +34,12 @@ const OnboardScreen = ({navigation}) => {
         showsHorizontalScrollIndicator={false}
         pagingEnabled
       />
-      <View>
+      <View style={styles.footerWrapper}>
         <Pagination datas={Onboard} currentIndex={currentIndex} />
+        <TouchableOpacity style={styles.btn} onPress={nextHandler}>
+          <Text style={styles.btnText}>Next</Text>
+        </TouchableOpacity>
       </View>
-      <Button onPress={nextHandler}>Next</Button>
     </SafeAreaView>
   );
 };
@@ -44,5 +50,24 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#1c1c1c',
+  },
+  footerWrapper: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    margin: 20,
+    alignItems: 'center',
+  },
+  btn: {
+    width: 163,
+    height: 50,
+    backgroundColor: '#018CF1',
+    borderRadius: 8,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  btnText: {
+    color: '#F6F6F6',
+    fontSize: 16,
+    fontWeight: '500',
   },
 });

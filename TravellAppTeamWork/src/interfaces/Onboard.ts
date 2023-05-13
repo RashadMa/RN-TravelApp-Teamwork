@@ -3,7 +3,7 @@ export default [
           id: 1,
           title: "Use the map",
           description: "The map feature is your best friend when exploring a new city. Use it to find directions, locate popular attractions, and discover new places to visit.",
-          image: require("../assets/images/onboarding/map.png"),
+          image: require("../assets/images/onboarding/holdmap.jpeg"),
       },
       {
           id: 2,
@@ -15,7 +15,7 @@ export default [
           id: 3,
           title: "Know Your Transportation Options",
           description: "Whether you prefer walking, biking, or taking public transportation, our app provides.",
-          image: require("../assets/images/onboarding/transport.png")
+          image: require("../assets/images/onboarding/bus.jpeg")
       },
       {
           id: 4,

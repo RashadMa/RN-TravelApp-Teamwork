@@ -1,14 +1,13 @@
 import React from 'react'
-import { Animated, StyleSheet, View } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 
 const Pagination = ({ datas, currentIndex }: any) => {
 
       return (
-            <View style={{ flexDirection: "row", gap: 4 }}>
+            <View style={styles.container}>
                   {
                         datas.map((e: any, i: any) => (
-                              <Animated.View key={e.id} style={[styles.dot, currentIndex + 1 <= i ? { opacity: 0.5, } : { opacity: 1 }]}>
-                              </Animated.View>
+                              <View key={e.id} style={[styles.dot, currentIndex + 1 <= i ? { opacity: 0.5, } : { opacity: 1 }]} />
                         ))
                   }
             </View>
@@ -23,5 +22,9 @@ const styles = StyleSheet.create({
             height: 8,
             borderRadius: 8,
             backgroundColor: "white"
+      },
+      container: {
+            flexDirection: "row",
+            gap: 4,
       }
 })

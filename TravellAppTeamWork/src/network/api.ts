@@ -15,18 +15,6 @@ export class BaseNetwork {
     return response;
   }
 
-  async add(url: string, data: any) {
-    let response = {};
-
-    await axiosInstance.post(url, data).then(res => {
-      console.log('DATA', res.data);
-
-      response = res.data;
-    });
-
-    return response;
-  }
-
   async getById(url: string, id: number) {
     let response = {};
 
