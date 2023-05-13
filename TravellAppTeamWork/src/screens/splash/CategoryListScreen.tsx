@@ -82,14 +82,16 @@ const CategoryListScren = ({ navigation }: any) => {
                                     renderItem={renderItem}
                                     numColumns={2}
                               />
-                              <TouchableOpacity style={styles.btn} onPress={next}>
-                                    <Text style={styles.btnText}>
-                                          Next
-                                    </Text>
-                              </TouchableOpacity>
+                              <View style={{flexDirection:"row", justifyContent:"center"}}>
+                                    <TouchableOpacity style={styles.btn} onPress={next}>
+                                          <Text style={styles.btnText}>
+                                                Next
+                                          </Text>
+                                    </TouchableOpacity>
+                              </View>
+
                         </View>
                   }
-
             </SafeAreaView>
       )
 }
@@ -148,8 +150,8 @@ const styles = StyleSheet.create({
             flexDirection: 'column',
             justifyContent: 'center',
             alignItems: 'center', width: 164,
-            height: 136,
-            marginRight: 16,
+            height: 125,
+            marginRight: 28,
             marginBottom: 16,
       },
       loading: {

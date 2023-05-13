@@ -1,4 +1,4 @@
-import { Image, SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { Image, SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { BaseNetwork } from '../../network/api';
 import MapView, { Marker } from 'react-native-maps';
@@ -12,7 +12,6 @@ const PlaceDetails = ({ route }: any) => {
     let baseNetwork = new BaseNetwork();
     baseNetwork.getById('places/', id)
       .then(data => {
-        console.log('data', data);
         setDetail(data);
         setloading(false);
       })
@@ -21,8 +20,6 @@ const PlaceDetails = ({ route }: any) => {
       })
   }, [])
 
-
-
   const initialRegion = {
     latitude: 40.4093,
     longitude: 49.8671,
@@ -30,50 +27,52 @@ const PlaceDetails = ({ route }: any) => {
     longitudeDelta: 0.0421,
   };
 
-
   return (
     <SafeAreaView style={styles.container}>
-      <View style={{ margin: 15 }}>
-        <View style={styles.detailWrapper}>
-          <Image source={{ uri: detail.imageUrl }} style={{ width: '100%', height: 220, resizeMode: "cover", borderRadius: 12 }} />
-          <View style={styles.cardFooter}>
-            <Text style={styles.detailName}>{detail.name}</Text>
-            <Text style={styles.detailRate}>⭐️ {detail.rate}</Text>
+      <ScrollView>
+        <View style={{ margin: 15 }}>
+          <View style={styles.detailWrapper}>
+            <Image source={{ uri: detail.imageUrl }} style={{ width: '100%', height: 220, resizeMode: "cover", borderRadius: 12 }} />
+            <View style={styles.cardFooter}>
+              <Text style={styles.detailName}>{detail.name}</Text>
+              <Text style={styles.detailRate}>⭐️ {detail.rate}</Text>
+            </View>
+          </View>
+          <View style={styles.infoWrapper}>
+            <View>
+              <Text style={styles.info}>
+                Information
+              </Text>
+            </View>
+            <View>
+              <Text style={styles.infoText}>🕘  Mon - Fri, {detail.openCloseTime}</Text>
+              <Text style={styles.infoText}>📞  {detail.phone}</Text>
+              <Text style={styles.infoText}>📍  {detail.adress}</Text>
+            </View>
+          </View>
+          <View style={styles.mapWrapper}>
+            <View>
+              <Text style={styles.mapText}>
+                Map
+              </Text>
+            </View>
+            <MapView
+              style={styles.map}
+              initialRegion={initialRegion}
+            >
+              <Marker
+                coordinate={{ latitude: detail.lat, longitude: detail.long }}
+                title="Marker Title"
+                description="Marker Description"
+              />
+            </MapView>
+            <TouchableOpacity style={styles.mapButton}>
+              <Text style={styles.btnText}>Go to map</Text>
+            </TouchableOpacity>
           </View>
         </View>
-        <View style={styles.infoWrapper}>
-          <View>
-            <Text style={styles.info}>
-              Information
-            </Text>
-          </View>
-          <View>
-            <Text style={styles.infoText}>🕘  Mon - Fri, {detail.openCloseTime}</Text>
-            <Text style={styles.infoText}>📞  {detail.phone}</Text>
-            <Text style={styles.infoText}>📍  {detail.adress}</Text>
-          </View>
-        </View>
-        <View style={styles.mapWrapper}>
-          <View>
-            <Text style={styles.mapText}>
-              Map
-            </Text>
-          </View>
-          <MapView
-            style={styles.map}
-            initialRegion={initialRegion}
-          >
-            <Marker
-              coordinate={{ latitude: detail.lat, longitude: detail.long }}
-              title="Marker Title"
-              description="Marker Description"
-            />
-          </MapView>
-          <TouchableOpacity style={styles.mapButton}>
-            <Text style={styles.btnText}>Go to map</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
+      </ScrollView>
+
     </SafeAreaView>
   )
 }
