@@ -1,16 +1,23 @@
 import { NavigationContainer } from '@react-navigation/native'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { StyleSheet } from 'react-native'
 import { FirstLoginProvider } from './src/context/FirstLoginContext'
-import SplashScreen from './src/screens/splash/SplashScreen'
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import SplashScreen from 'react-native-splash-screen'
+import Opening from './src/screens/splash/Opening'
 
 const App = () => {
+
+  useEffect(() => {
+    SplashScreen.hide();
+  }, [])
+
+  AsyncStorage.clear();
   return (
     <>
       <NavigationContainer>
         <FirstLoginProvider>
-          <SplashScreen />
+          <Opening />
         </FirstLoginProvider>
       </NavigationContainer>
     </>
