@@ -2,6 +2,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React from 'react';
 import { StyleSheet } from 'react-native';
 import OnboardScreen from '../../../screens/splash/OnboardScreen';
+import CategoryListScren from '../../../screens/splash/CategoryListScreen';
 const Splash = createNativeStackNavigator();
 
 
@@ -9,9 +10,9 @@ const SplashStack = () => {
       return (
             <Splash.Navigator screenOptions={{ headerShown: false }}>
                   <Splash.Screen name="Onboarding1" component={OnboardScreen} />
-                  {/* <Splash.Screen name="CategoryList" options={{
+                  <Splash.Screen name="CategoryList" options={{
                         gestureEnabled: false
-                  }} component={CategoryListScren} /> */}
+                  }} component={CategoryListScren} />
 
             </Splash.Navigator>
       )

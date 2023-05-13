@@ -1,11 +1,12 @@
 import { NavigationContainer } from '@react-navigation/native'
 import React from 'react'
 import { StyleSheet } from 'react-native'
-import SplashScreen from './src/screens/splash/SplashScreen'
 import { FirstLoginProvider } from './src/context/FirstLoginContext'
-
+import SplashScreen from './src/screens/splash/SplashScreen'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 const App = () => {
+  AsyncStorage.clear();
   return (
     <>
       <NavigationContainer>

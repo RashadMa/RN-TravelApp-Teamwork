@@ -34,12 +34,20 @@ const OnboardScreen = ({navigation}) => {
         showsHorizontalScrollIndicator={false}
         pagingEnabled
       />
-      <View style={styles.footerWrapper}>
-        <Pagination datas={Onboard} currentIndex={currentIndex} />
-        <TouchableOpacity style={styles.btn} onPress={nextHandler}>
-          <Text style={styles.btnText}>Next</Text>
-        </TouchableOpacity>
-      </View>
+      {currentIndex <= 2 ? (
+        <View style={styles.footerWrapper}>
+          <Pagination datas={Onboard} currentIndex={currentIndex} />
+          <TouchableOpacity style={styles.btn} onPress={nextHandler}>
+            <Text style={styles.btnText}>Next</Text>
+          </TouchableOpacity>
+        </View>
+      ) : (
+        <View style={styles.btnGetStartedWrapper}>
+          <TouchableOpacity style={styles.btnGetStarted} onPress={nextHandler}>
+            <Text style={styles.btnText}>Get started</Text>
+          </TouchableOpacity>
+        </View>
+      )}
     </SafeAreaView>
   );
 };
@@ -70,4 +78,18 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '500',
   },
+  btnGetStarted: {
+    width: 343,
+    height: 50,
+    backgroundColor: '#018CF1',
+    borderRadius: 8,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  btnGetStartedWrapper: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    margin: 20,
+  }
 });
