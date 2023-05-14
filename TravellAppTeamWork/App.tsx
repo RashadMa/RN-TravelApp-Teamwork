@@ -12,7 +12,7 @@ const App = () => {
     SplashScreen.hide();
   }, [])
 
-  //AsyncStorage.clear();
+  AsyncStorage.clear();
   return (
     <>
       <NavigationContainer>

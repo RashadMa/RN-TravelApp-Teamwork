@@ -80,7 +80,7 @@ const styles = StyleSheet.create({
     marginBottom: 15
   },
   restaurants: {
-    width: 350,
+    width: "100%",
     height: 280,
     borderWidth: 1,
     borderColor: '#262626',

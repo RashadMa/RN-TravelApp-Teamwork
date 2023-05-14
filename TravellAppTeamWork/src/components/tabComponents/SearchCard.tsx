@@ -28,8 +28,7 @@ const SearchCard = ({ item, navigation }: any) => {
     if (!isSaved) {
       setisSaved(true)
       let obj = alldata.find(c => c.id == item.id)
-      console.log([obj]);
-            obj.isSaved = true;
+      obj.isSaved = true;
       if (obj != repeated.find(c => c.id == item.id)) {
         saveUserPlaces([...data, obj])
         setdata([...data, obj])
@@ -95,7 +94,7 @@ const styles = StyleSheet.create({
     marginBottom: 15
   },
   restaurants: {
-    width: 350,
+    width: "100%",
     height: 280,
     borderWidth: 1,
     borderColor: '#262626',

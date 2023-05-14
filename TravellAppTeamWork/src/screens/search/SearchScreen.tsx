@@ -50,7 +50,7 @@ const SearchScreen = ({ navigation }: any) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={{ margin: 10 }}>
+      <View style={{ margin: 15 }}>
         <ActivityIndicator style={styles.loading} animating={loading} />
         {
           loading ? <></> : <>
