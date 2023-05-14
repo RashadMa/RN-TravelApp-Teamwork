@@ -7,11 +7,13 @@ import { getUserPlaces, saveUserPlaces } from '../../utils/storage/userSavedPlac
 const SavedCard = ({ item }: any) => {
   const [data, setdata] = useState<any[]>([])
   const [alldata, setalldata] = useState<any[]>([])
+  const [isSaved, setisSaved] = useState(false)
   useEffect(() => {
     let network = new BaseNetwork();
     network.getAll('places').then((res) => {
       setalldata(res);
     })
+    if (item.isSaved == false) { setisSaved(false) }
   }, [])
 
   useFocusEffect(() => {
@@ -20,7 +22,7 @@ const SavedCard = ({ item }: any) => {
     })
   })
 
-  const [isSaved, setisSaved] = useState(false)
+  
   const Delete = () => {
     item.isSaved = false
     setalldata(alldata)

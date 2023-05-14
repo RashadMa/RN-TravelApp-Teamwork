@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View, SafeAreaView, FlatList, TouchableOpacity } from 'react-native'
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { getUserPlaces } from '../../utils/storage/userSavedPlacesHelper'
 import { useFocusEffect } from '@react-navigation/native'
 import SavedCard from '../../components/tabComponents/SavedCard'

@@ -1,51 +1,35 @@
-import { FlatList, Image, SafeAreaView, StyleSheet, Text, TouchableOpacity, View, ScrollView } from 'react-native'
+import { FlatList, SafeAreaView, StyleSheet, Text, TouchableOpacity, View, ScrollView } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { BaseNetwork } from '../../network/api';
 import { ActivityIndicator } from 'react-native-paper';
 import WeatherScreen from './WeatherScreen'
+import HomeCard from '../../components/tabComponents/HomeCard';
 
-const Homescreen = ({ navigation }: any) => {
+const Homescreen = ({ item, navigation }: any) => {
   const [restaurant, setRestaurant] = useState<any[]>([]);
   const [hotels, setHotels] = useState<any[]>([]);
-  const [loading, setloading] = useState(true)
+  const [loading, setloading] = useState(true);
+
   useEffect(() => {
     let baseNetwork = new BaseNetwork();
     baseNetwork.getAll('places')
-      .then(data => {
+      .then((data) => {
         const rest = data.filter((q: any) => q.categoryId == 1);
         const htls = data.filter((q: any) => q.categoryId == 5);
         setRestaurant(rest);
         setHotels(htls);
         setloading(false);
-      })
-      .catch(err => {
+      }).catch(err => {
         console.log('Error ', err);
       })
   }, [])
 
+
+
   const renderItem = ({ item }: any) => {
     return (<>
-      <TouchableOpacity onPress={() => navigation.navigate('placesdetails', { id: item.id })} style={styles.restaurants}>
-        <View style={styles.bookmarkWrapper}>
-          <Image style={styles.bookmark}
-            source={require('../../assets/icons/bookmark.png')}
-          />
-        </View>
-        <Image source={{ uri: item.imageUrl }} style={{ borderTopLeftRadius: 12, borderTopRightRadius: 12, width: '100%', height: 200, resizeMode: "cover" }} />
-        <View style={{ padding: 10 }}>
-          <Text style={styles.rstName}>{item.name}</Text>
-        </View>
-        <View style={styles.cardFooter}>
-          <Text style={styles.footerTexts}>
-            📍 4 km
-          </Text>
-          <Text style={styles.footerTexts}>
-            🕘 {item.openCloseTime}
-          </Text>
-          <Text style={styles.footerTexts}>
-            ⭐️ {item.rate}
-          </Text>
-        </View>
+      <TouchableOpacity onPress={() => navigation.navigate('placesdetails', { id: item.id })} >
+        <HomeCard item={item}/>
       </TouchableOpacity>
     </>
     )

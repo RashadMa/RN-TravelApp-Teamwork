@@ -28,7 +28,8 @@ const SearchCard = ({ item, navigation }: any) => {
     if (!isSaved) {
       setisSaved(true)
       let obj = alldata.find(c => c.id == item.id)
-      obj.isSaved = true;
+      console.log([obj]);
+            obj.isSaved = true;
       if (obj != repeated.find(c => c.id == item.id)) {
         saveUserPlaces([...data, obj])
         setdata([...data, obj])
