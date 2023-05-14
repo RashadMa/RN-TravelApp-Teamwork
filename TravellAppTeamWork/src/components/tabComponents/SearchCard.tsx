@@ -4,7 +4,7 @@ import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { BaseNetwork } from '../../network/api'
 import { getUserPlaces, saveUserPlaces } from '../../utils/storage/userSavedPlacesHelper'
 
-const SearchCard = ({ item }: any) => {
+const SearchCard = ({ item, navigation }: any) => {
   const [data, setdata] = useState<any[]>([])
   const [alldata, setalldata] = useState<any[]>([])
   const [repeated, setrepeated] = useState<any[]>([])
@@ -49,14 +49,13 @@ const SearchCard = ({ item }: any) => {
 
   return (
     <>
-      <TouchableOpacity style={styles.restaurants}>
+      <View  style={styles.restaurants}>
         <View style={styles.bookmarkWrapper}>
           <TouchableOpacity onPress={Save}>
             <Image style={styles.bookmark}
               source={isSaved ? require('../../assets/icons/savedbookmark.png') : require('../../assets/icons/bookmark.png')}
             />
           </TouchableOpacity>
-
         </View>
         <Image source={{ uri: item.imageUrl }} style={{ borderRadius: 12, width: '100%', height: 200, resizeMode: "cover" }} />
         <View style={{ padding: 10 }}>
@@ -73,7 +72,7 @@ const SearchCard = ({ item }: any) => {
             ⭐️ {item.rate}
           </Text>
         </View>
-      </TouchableOpacity>
+      </View>
     </>
   )
 }
@@ -99,8 +98,8 @@ const styles = StyleSheet.create({
     height: 300,
     borderWidth: 1,
     borderColor: '#262626',
-
-    marginRight: 15
+    marginBottom: 20,
+    borderRadius: 12,
   },
   rstName: {
     color: '#fff',

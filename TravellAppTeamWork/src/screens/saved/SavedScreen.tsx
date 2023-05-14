@@ -1,11 +1,11 @@
-import { StyleSheet, Text, View, SafeAreaView, FlatList } from 'react-native'
+import { StyleSheet, Text, View, SafeAreaView, FlatList, TouchableOpacity } from 'react-native'
 import React, { useState, useEffect } from 'react'
 import { getUserPlaces } from '../../utils/storage/userSavedPlacesHelper'
 import { useFocusEffect } from '@react-navigation/native'
 import SavedCard from '../../components/tabComponents/SavedCard'
 import { ActivityIndicator } from 'react-native-paper'
 
-const SavedScreen = () => {
+const SavedScreen = ({navigation}: any) => {
   const [Placesdata, setPlacesdata] = useState([])
   const [loading, setLoading] = useState(true)
 
@@ -19,29 +19,31 @@ const SavedScreen = () => {
 
   const renderItem = ({ item }: any) => {
     return (
-      <View>
+      <TouchableOpacity onPress={() => navigation.navigate('placesdetails', { id: item.id })}>
         <SavedCard item={item} />
-      </View>
+      </TouchableOpacity>
     )
   }
 
   return (
     <SafeAreaView style={styles.container}>
-      <ActivityIndicator style={styles.loading} animating={loading} />
-      {
-        loading ? <></> : <>
-          <View style={{ marginBottom: 15 }}>
-            <Text style={styles.headertext}>Saved</Text>
-          </View>
-          <View>
-            <FlatList
-              style={{ height: '90%' }}
-              data={Placesdata}
-              renderItem={renderItem}
-            />
-          </View>
-        </>
-      }
+      <View style={{ margin: 15 }}>
+        <ActivityIndicator style={styles.loading} animating={loading} />
+        {
+          loading ? <></> : <>
+            <View style={{ marginBottom: 15 }}>
+              <Text style={styles.headertext}>Saved</Text>
+            </View>
+            <View>
+              <FlatList
+                style={{ height: '90%' }}
+                data={Placesdata}
+                renderItem={renderItem}
+              />
+            </View>
+          </>
+        }
+      </View>
     </SafeAreaView>
   )
 }

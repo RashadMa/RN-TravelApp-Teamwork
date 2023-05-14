@@ -31,14 +31,13 @@ const SavedCard = ({ item }: any) => {
   }
   return (
     <>
-      <TouchableOpacity style={styles.restaurants}>
+      <View style={styles.restaurants}>
         <View style={styles.bookmarkWrapper}>
           <TouchableOpacity onPress={Delete}>
             <Image style={styles.bookmark}
               source={require('../../assets/icons/savedbookmark.png')}
             />
           </TouchableOpacity>
-
         </View>
         <Image source={{ uri: item.imageUrl }} style={{ borderRadius: 12, width: '100%', height: 200, resizeMode: "cover" }} />
         <View style={{ padding: 10 }}>
@@ -55,7 +54,7 @@ const SavedCard = ({ item }: any) => {
             ⭐️ {item.rate}
           </Text>
         </View>
-      </TouchableOpacity>
+      </View>
     </>
   )
 }
@@ -81,8 +80,8 @@ const styles = StyleSheet.create({
     height: 300,
     borderWidth: 1,
     borderColor: '#262626',
-
-    marginRight: 15
+    marginRight: 15,
+    borderRadius: 12,
   },
   rstName: {
     color: '#fff',

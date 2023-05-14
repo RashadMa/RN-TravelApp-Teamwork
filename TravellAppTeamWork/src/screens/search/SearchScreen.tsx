@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from 'react'
-import { FlatList, SafeAreaView, StyleSheet, TextInput, View } from 'react-native'
+import { FlatList, SafeAreaView, StyleSheet, TextInput, TouchableOpacity, View } from 'react-native'
 import { ActivityIndicator } from 'react-native-paper'
 import CategoryListCard from '../../components/tabComponents/CategoryListCard'
 import SearchCard from '../../components/tabComponents/SearchCard'
 import { BaseNetwork } from '../../network/api'
 
-
-const SearchScreen = () => {
+const SearchScreen = ({ navigation }: any) => {
   const [PlacesdataSearch, setPlacesdataSearch] = useState([])
   const [Catdata, setCatdata] = useState([])
   const [data, setdata] = useState([])
@@ -42,37 +41,40 @@ const SearchScreen = () => {
   }
   const renderItem = ({ item }: any) => {
     return (
-      <View>
+      <TouchableOpacity onPress={() => navigation.navigate('placesdetails', { id: item.id })}>
         <SearchCard item={item} />
-      </View>
+      </TouchableOpacity>
     )
   }
 
   return (
     <SafeAreaView style={styles.container}>
-      <ActivityIndicator style={styles.loading} animating={loading} />
-      {
-        loading ? <></> : <>
-          <View>
-            <TextInput onChangeText={Searching} style={styles.input} placeholderTextColor={'#B9B9B9'} placeholder='🔍  Search by items' />
-          </View>
-          <View style={styles.categorieslist}>
-            <FlatList
-              horizontal
-              data={Catdata}
-              renderItem={renderItemCat}
-              showsHorizontalScrollIndicator={false}
-            />
-          </View>
-          <View>
-            <FlatList
-              style={{ height: '90%' }}
-              data={data}
-              renderItem={renderItem}
-            />
-          </View></>
-      }
-
+      <View style={{ margin: 15 }}>
+        <ActivityIndicator style={styles.loading} animating={loading} />
+        {
+          loading ? <></> : <>
+            <View>
+              <TextInput onChangeText={Searching} style={styles.input} placeholderTextColor={'#B9B9B9'} placeholder='🔍  Search by items' />
+            </View>
+            <View style={styles.categorieslist}>
+              <FlatList
+                horizontal
+                data={Catdata}
+                renderItem={renderItemCat}
+                showsHorizontalScrollIndicator={false}
+              />
+            </View>
+            <View>
+              <FlatList
+                style={{ height: '90%' }}
+                data={data}
+                renderItem={renderItem}
+                showsVerticalScrollIndicator={false}
+                windowSize={5}
+              />
+            </View></>
+        }
+      </View>
     </SafeAreaView>
   )
 }
@@ -84,12 +86,12 @@ const styles = StyleSheet.create({
     paddingTop: 60,
     padding: 20,
     flex: 1,
-    backgroundColor: '#1C1C1C'
+    backgroundColor: '#1C1C1C',
   },
   input: {
     color: 'white',
     paddingLeft: 15,
-    borderRadius: 12,
+    borderRadius: 10,
     padding: 10,
     backgroundColor: '#262626'
   },
