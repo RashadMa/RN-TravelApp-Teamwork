@@ -3,7 +3,6 @@ import React from 'react'
 import { Dimensions } from 'react-native'
 
 const SCREEN_WIDTH = Dimensions.get('window').width
-
 const OnboardingItem = ({ item }: any) => {
     return (
         <View style={styles.item}>

@@ -7,7 +7,6 @@ import WeatherScreen from './WeatherScreen'
 const Homescreen = ({ navigation }: any) => {
   const [restaurant, setRestaurant] = useState<any[]>([]);
   const [hotels, setHotels] = useState<any[]>([]);
-
   const [loading, setloading] = useState(true)
   useEffect(() => {
     let baseNetwork = new BaseNetwork();
