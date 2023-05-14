@@ -27,7 +27,7 @@ const SavedScreen = ({navigation}: any) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={{ margin: 15 }}>
+      <View style={{ margin: 10 }}>
         <ActivityIndicator style={styles.loading} animating={loading} />
         {
           loading ? <></> : <>
