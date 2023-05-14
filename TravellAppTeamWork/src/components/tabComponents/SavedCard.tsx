@@ -31,6 +31,7 @@ const SavedCard = ({ item }: any) => {
   }
   return (
     <>
+      <View style ={{marginBottom: 20,}}>
       <View style={styles.restaurants}>
         <View style={styles.bookmarkWrapper}>
           <TouchableOpacity onPress={Delete}>
@@ -39,7 +40,7 @@ const SavedCard = ({ item }: any) => {
             />
           </TouchableOpacity>
         </View>
-        <Image source={{ uri: item.imageUrl }} style={{ borderRadius: 12, width: '100%', height: 200, resizeMode: "cover" }} />
+        <Image source={{ uri: item.imageUrl }} style={{ borderTopLeftRadius: 12, borderTopRightRadius: 12, width: '100%', height: 200, resizeMode: "cover" }} />
         <View style={{ padding: 10 }}>
           <Text style={styles.rstName}>{item.name}</Text>
         </View>
@@ -54,6 +55,7 @@ const SavedCard = ({ item }: any) => {
             ⭐️ {item.rate}
           </Text>
         </View>
+      </View>
       </View>
     </>
   )
@@ -76,8 +78,8 @@ const styles = StyleSheet.create({
     marginBottom: 15
   },
   restaurants: {
-    width: 355,
-    height: 300,
+    width: 350,
+    height: 280,
     borderWidth: 1,
     borderColor: '#262626',
     marginRight: 15,
@@ -105,8 +107,8 @@ const styles = StyleSheet.create({
   bookmarkWrapper: {
     position: 'absolute',
     zIndex: 10,
-    right: 10,
-    top: 10,
+    right: 13,
+    top: 13,
     backgroundColor: '#1C1C1C',
     padding: 10,
     borderRadius: 50,

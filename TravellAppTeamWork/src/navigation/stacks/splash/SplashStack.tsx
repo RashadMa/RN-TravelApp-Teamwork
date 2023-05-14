@@ -13,7 +13,6 @@ const SplashStack = () => {
                   <Splash.Screen name="CategoryList" options={{
                         gestureEnabled: false
                   }} component={CategoryListScren} />
-
             </Splash.Navigator>
       )
 }

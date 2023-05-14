@@ -28,7 +28,7 @@ const SearchScreen = ({ navigation }: any) => {
   }, [])
 
   const Searching = (value: string) => {
-    let filtereddata = PlacesdataSearch.filter((c) => c.name.toLowerCase().includes(value.toLowerCase()))
+    let filtereddata = PlacesdataSearch.filter((c): any => c.name.toLowerCase().includes(value.toLowerCase()))
     setdata(filtereddata);
   }
 
@@ -49,7 +49,7 @@ const SearchScreen = ({ navigation }: any) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={{ margin: 15 }}>
+      <View style={{ margin: 10 }}>
         <ActivityIndicator style={styles.loading} animating={loading} />
         {
           loading ? <></> : <>
@@ -83,8 +83,8 @@ export default SearchScreen
 
 const styles = StyleSheet.create({
   container: {
-    paddingTop: 60,
-    padding: 20,
+    paddingTop: 50,
+    padding: 10,
     flex: 1,
     backgroundColor: '#1C1C1C',
   },

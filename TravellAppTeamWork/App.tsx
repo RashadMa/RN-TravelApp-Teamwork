@@ -8,11 +8,11 @@ import Opening from './src/screens/splash/Opening'
 
 const App = () => {
 
-  // useEffect(() => {
-  //   SplashScreen.hide();
-  // }, [])
+  useEffect(() => {
+    SplashScreen.hide();
+  }, [])
 
-  // AsyncStorage.clear();
+  //AsyncStorage.clear();
   return (
     <>
       <NavigationContainer>
