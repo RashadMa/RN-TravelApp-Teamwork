@@ -11,6 +11,7 @@ const SearchScreen = ({ navigation }: any) => {
   const [data, setdata] = useState([])
   const [loading, setloading] = useState(true)
 
+
   useEffect(() => {
     let network = new BaseNetwork();
     network.getAll('categories').then((res: any) => {

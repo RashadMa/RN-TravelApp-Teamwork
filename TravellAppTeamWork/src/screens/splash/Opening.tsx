@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet } from 'react-native'
 import React, { useContext, useEffect, useState } from 'react'
 import TabMain from '../../navigation/TabMain';
 import SplashStack from '../../navigation/stacks/splash/SplashStack';
