@@ -1,18 +1,18 @@
-import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native'
+import { StyleSheet, Text, View, TouchableOpacity, Image, Platform, PermissionsAndroid } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { getUserPlaces, saveUserPlaces } from '../../utils/storage/userSavedPlacesHelper';
 import { useFocusEffect } from '@react-navigation/native';
 import { BaseNetwork } from '../../network/api';
+import Geolocation, { GeolocationResponse } from '@react-native-community/geolocation';
 
-
-const HomeCard = ({ item, navigation }: any) => {
-
-
+const HomeCard = ({ item }: any) => {
     const [data, setdata] = useState<any[]>([])
     const [alldata, setalldata] = useState<any[]>([])
     const [repeated, setrepeated] = useState<any[]>([])
     const [isSaved, setisSaved] = useState(false)
-
+    const [latitude, setLatitude] = useState<number | null>(null);
+    const [longitude, setLongitude] = useState<number | null>(null);
+    
     useEffect(() => {
         let baseNetwork = new BaseNetwork();
         baseNetwork.getAll('places')
@@ -21,7 +21,6 @@ const HomeCard = ({ item, navigation }: any) => {
             })
         if (item.isSaved == false) { setisSaved(false) }
     }, [])
-
 
     useFocusEffect(() => {
         getUserPlaces().then((res: any) => {
@@ -52,6 +51,106 @@ const HomeCard = ({ item, navigation }: any) => {
         }
     }
 
+    useEffect(() => {
+        getCurrentLocation().then(coords => {
+            if (coords) {
+                const { latitude, longitude } = coords;
+                setLatitude(latitude);
+                setLongitude(longitude);
+            } else {
+                console.log('Failed to get current location.');
+            }
+        });
+    }, []);
+
+    const calculateDistance = (
+        lat1: number,
+        lon1: number,
+        lat2: number,
+        lon2: number
+    ): number => {
+        const R = 6371; // Earth's radius in kilometers
+        const dLat = toRadians(lat2 - lat1);
+        const dLon = toRadians(lon2 - lon1);
+
+        const a =
+            Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+            Math.cos(toRadians(lat1)) *
+            Math.cos(toRadians(lat2)) *
+            Math.sin(dLon / 2) *
+            Math.sin(dLon / 2);
+
+        const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+
+        const distance = R * c;
+        return distance;
+    };
+
+    const toRadians = (degrees: number): number => {
+        return degrees * (Math.PI / 180);
+    };
+
+    const pointA = { lat: item.lat, lon: item.long };
+    const pointB = { lat: latitude, lon: longitude };
+
+    const distance = calculateDistance(
+        pointA.lat,
+        pointA.lon,
+        pointB.lat,
+        pointB.lon
+    );
+
+    const getCurrentLocation = async (): Promise<GeolocationResponse['coords'] | null> => {
+        const hasPermission = await requestLocationPermission();
+
+        if (hasPermission) {
+            return new Promise((resolve, reject) => {
+                Geolocation.getCurrentPosition(
+                    position => {
+                        const { latitude, longitude } = position.coords;
+                        resolve({ latitude, longitude });
+                    },
+                    error => {
+                        console.error('Error getting current location:', error);
+                        reject(null);
+                    },
+                    { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 }
+                );
+            });
+        } else {
+            console.error('Location permission denied.');
+            return null;
+        }
+    };
+
+    const requestLocationPermission = async (): Promise<boolean> => {
+        if (Platform.OS === 'ios') {
+            return true;
+        }
+
+        try {
+            const granted = await PermissionsAndroid.request(
+                PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+                {
+                    title: 'Location Permission',
+                    message: 'This app needs access to your location.',
+                    buttonNeutral: 'Ask Me Later',
+                    buttonNegative: 'Cancel',
+                    buttonPositive: 'OK',
+                }
+            );
+
+            if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+                return true;
+            } else {
+                return false;
+            }
+        } catch (error) {
+            console.error('Failed to request location permission:', error);
+            return false;
+        }
+    };
+
     return (
         <View style={styles.restaurants}>
             <View style={styles.bookmarkWrapper}>
@@ -68,7 +167,7 @@ const HomeCard = ({ item, navigation }: any) => {
             </View>
             <View style={styles.cardFooter}>
                 <Text style={styles.footerTexts}>
-                    📍 4 km
+                    📍 {distance.toFixed(2)} km
                 </Text>
                 <Text style={styles.footerTexts}>
                     🕘 {item.openCloseTime}

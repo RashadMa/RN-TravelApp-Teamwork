@@ -2,7 +2,6 @@ import { FlatList, SafeAreaView, StyleSheet, Text, TouchableOpacity, View, Scrol
 import React, { useEffect, useState } from 'react'
 import { BaseNetwork } from '../../network/api';
 import { ActivityIndicator } from 'react-native-paper';
-import WeatherScreen from './WeatherScreen'
 import HomeCard from '../../components/tabComponents/HomeCard';
 import WeatherSecond from './WeatherSecond';
 
@@ -43,7 +42,6 @@ const Homescreen = ({ item, navigation }: any) => {
         {
           loading ? <></> : <View style={{ margin: 15 }}>
             <View style={styles.headerWrapper}>
-              {/* <WeatherScreen city={'Baku'} /> */}
               {
                 <WeatherSecond/>
               }
@@ -71,7 +69,6 @@ const Homescreen = ({ item, navigation }: any) => {
           </View>
         }
       </ScrollView>
-
     </SafeAreaView>
   )
 }

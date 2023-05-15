@@ -6,7 +6,6 @@ import SavedStack from './stacks/saved/SavedStack';
 import SearchStack from './stacks/search/SearchStack';
 const Tab = createBottomTabNavigator();
 const TabMain = () => {
-      // AsyncStorage.clear();
       return (
             <>
                   <Tab.Navigator screenOptions={{

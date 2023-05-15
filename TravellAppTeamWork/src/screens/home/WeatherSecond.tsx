@@ -66,7 +66,12 @@ const App = () => {
             return <Text>Unable to fetch weather data.</Text>;
       }
 
-      const { name: cityName, sys: { country: countryName } = {}, main: { temp } = {}, weather: weatherDetails } = weather;
+      const { name: cityName,
+            sys: { country: countryName } = {},
+            main: { temp } = {},
+            weather: weatherDetails
+      } = weather;
+      
       const weatherCondition = weatherDetails[0]?.main;
       const weatherIconName = getWeatherIconName(weatherCondition);
       return (

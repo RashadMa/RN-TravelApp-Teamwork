@@ -12,7 +12,6 @@ const App = () => {
     SplashScreen.hide();
   }, [])
   // AsyncStorage.clear();
-  Geolocation.getCurrentPosition(info => console.log(info));
   return (
     <>
       <NavigationContainer>
