@@ -5,14 +5,14 @@ import { FirstLoginProvider } from './src/context/FirstLoginContext'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import SplashScreen from 'react-native-splash-screen'
 import Opening from './src/screens/splash/Opening'
+import Geolocation from '@react-native-community/geolocation';
 
 const App = () => {
-
   useEffect(() => {
     SplashScreen.hide();
   }, [])
-
-  AsyncStorage.clear();
+  // AsyncStorage.clear();
+  Geolocation.getCurrentPosition(info => console.log(info));
   return (
     <>
       <NavigationContainer>

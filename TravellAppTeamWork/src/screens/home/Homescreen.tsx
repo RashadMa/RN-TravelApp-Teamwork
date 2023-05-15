@@ -4,6 +4,7 @@ import { BaseNetwork } from '../../network/api';
 import { ActivityIndicator } from 'react-native-paper';
 import WeatherScreen from './WeatherScreen'
 import HomeCard from '../../components/tabComponents/HomeCard';
+import WeatherSecond from './WeatherSecond';
 
 const Homescreen = ({ item, navigation }: any) => {
   const [restaurant, setRestaurant] = useState<any[]>([]);
@@ -42,7 +43,10 @@ const Homescreen = ({ item, navigation }: any) => {
         {
           loading ? <></> : <View style={{ margin: 15 }}>
             <View style={styles.headerWrapper}>
-              <WeatherScreen city={'Baku'} />
+              {/* <WeatherScreen city={'Baku'} /> */}
+              {
+                <WeatherSecond/>
+              }
               <Text style={styles.headerText}>Restaurants nearby</Text>
               <View>
                 <FlatList
