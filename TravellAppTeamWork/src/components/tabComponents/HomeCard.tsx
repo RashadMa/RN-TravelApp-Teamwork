@@ -1,55 +1,58 @@
 import { StyleSheet, Text, View, TouchableOpacity, Image, Platform, PermissionsAndroid } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { getUserPlaces, saveUserPlaces } from '../../utils/storage/userSavedPlacesHelper';
-import { useFocusEffect } from '@react-navigation/native';
+import { useFocusEffect, useIsFocused } from '@react-navigation/native';
 import { BaseNetwork } from '../../network/api';
 import Geolocation, { GeolocationResponse } from '@react-native-community/geolocation';
 
 const HomeCard = ({ item }: any) => {
     const [data, setdata] = useState<any[]>([])
     const [alldata, setalldata] = useState<any[]>([])
-    const [repeated, setrepeated] = useState<any[]>([])
     const [isSaved, setisSaved] = useState(false)
     const [latitude, setLatitude] = useState<number | null>(null);
     const [longitude, setLongitude] = useState<number | null>(null);
-    
+     
+    const isFocused = useIsFocused();
     useEffect(() => {
-        let baseNetwork = new BaseNetwork();
-        baseNetwork.getAll('places')
-            .then((data) => {
-                setalldata(data);
-            })
-        if (item.isSaved == false) { setisSaved(false) }
-    }, [])
-
-    useFocusEffect(() => {
-        getUserPlaces().then((res: any) => {
-            setdata(res);
+        let network = new BaseNetwork();
+        network.getAll('places').then((res) => {
+          setalldata(res);
         })
-    })
-
-    const Save = () => {
+      }, [])
+    
+      useEffect(() => {
+        if (isFocused) {
+          getUserPlaces().then((res: any) => {
+            setdata(res);
+            if (res.find((e: any) => e.id == item.id)) {
+              setisSaved(true)
+            }
+          })
+    
+        }
+      }, [isFocused])
+    
+    
+    
+      const Save = () => {
+    
+    
+    
         if (!isSaved) {
-            setisSaved(true)
-            let obj = alldata.find(c => c.id == item.id)
-            obj.isSaved = true;
-            if (obj != repeated.find(c => c.id == item.id)) {
-                saveUserPlaces([...data, obj])
-                setdata([...data, obj])
-                setrepeated([...repeated, obj])
-            }
-            else {
-                setdata([...data])
-                saveUserPlaces([...data])
-            }
+          saveUserPlaces([...data, item])
+          setdata([...data, item])
+          setisSaved(true)
+    
+    
         }
         else {
-            let filtered = data.filter(c => c.id != item.id)
-            setdata(filtered)
-            saveUserPlaces(filtered)
-            setisSaved(false)
+          let filtered = data.filter(c => c.id != item.id)
+          setdata(filtered)
+          saveUserPlaces(filtered)
+          setisSaved(false)
         }
-    }
+    
+      }
 
     useEffect(() => {
         getCurrentLocation().then(coords => {
