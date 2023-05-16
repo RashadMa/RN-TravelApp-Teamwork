@@ -1,4 +1,4 @@
-import { useFocusEffect } from '@react-navigation/native'
+import { useFocusEffect, useIsFocused } from '@react-navigation/native'
 import React, { useEffect, useState } from 'react'
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { BaseNetwork } from '../../network/api'
@@ -7,45 +7,51 @@ import { getUserPlaces, saveUserPlaces } from '../../utils/storage/userSavedPlac
 const SearchCard = ({ item, navigation }: any) => {
   const [data, setdata] = useState<any[]>([])
   const [alldata, setalldata] = useState<any[]>([])
-  const [repeated, setrepeated] = useState<any[]>([])
   const [isSaved, setisSaved] = useState(false)
 
-  useEffect(() => {
-    let network = new BaseNetwork();
-    network.getAll('places').then((res) => {
-      setalldata(res);
-    })
-    if (item.isSaved == false) { setisSaved(false) }
-  }, [])
-
-  useFocusEffect(() => {
-    getUserPlaces().then((res: any) => {
-      setdata(res);
-    })
-  })
-
-  const Save = () => {
-    if (!isSaved) {
-      setisSaved(true)
-      let obj = alldata.find(c => c.id == item.id)
-      obj.isSaved = true;
-      if (obj != repeated.find(c => c.id == item.id)) {
-        saveUserPlaces([...data, obj])
-        setdata([...data, obj])
-        setrepeated([...repeated, obj])
+  const isFocused = useIsFocused();
+    useEffect(() => {
+        let network = new BaseNetwork();
+        network.getAll('places').then((res) => {
+          setalldata(res);
+        })
+      }, [])
+    
+      useEffect(() => {
+        if (isFocused) {
+          getUserPlaces().then((res: any) => {
+            setdata(res);
+            if (res.find((e: any) => e.id == item.id)) {
+              setisSaved(true)
+            }
+          })
+    
+        }
+      }, [isFocused])
+    
+    
+    
+      const Save = () => {
+    
+    
+    
+        if (!isSaved) {
+          saveUserPlaces([...data, item])
+          setdata([...data, item])
+          setisSaved(true)
+    
+    
+        }
+        else {
+          let filtered = data.filter(c => c.id != item.id)
+          setdata(filtered)
+          saveUserPlaces(filtered)
+          setisSaved(false)
+        }
+    
       }
-      else {
-        setdata([...data])
-        saveUserPlaces([...data])
-      }
-    }
-    else {
-      let filtered = data.filter(c => c.id != item.id)
-      setdata(filtered)
-      saveUserPlaces(filtered)
-      setisSaved(false)
-    }
-  }
+
+   
 
   return (
     <>

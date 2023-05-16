@@ -10,7 +10,7 @@ const App = () => {
   useEffect(() => {
     SplashScreen.hide();
   }, [])
-  // AsyncStorage.clear();
+  AsyncStorage.clear();
   return (
     <>
       <NavigationContainer>
