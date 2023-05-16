@@ -77,7 +77,7 @@ const App = () => {
       return (
             <View>
                   <View style={styles.weatherWrapper}>
-                        <View style={{ width: 240, height: 35, backgroundColor: "#262626", borderRadius: 10, justifyContent: 'center', paddingLeft: 10 }}>
+                        <View style={{ width: "65%", height: 35, backgroundColor: "#262626", borderRadius: 10, justifyContent: 'center', paddingLeft: 10 }}>
                               <Text style={styles.weatherCity}>📍  {cityName}, {countryName}</Text>
                         </View>
                         <View style={styles.deg}>
@@ -110,7 +110,7 @@ const styles = StyleSheet.create({
       deg: {
             alignItems: 'center',
             flexDirection: 'row',
-            width: 110,
+            width: "30%",
             height: 35,
             backgroundColor: "#262626",
             borderRadius: 10,
