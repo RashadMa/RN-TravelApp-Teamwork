@@ -4,6 +4,7 @@ import { getUserPlaces } from '../../utils/storage/userSavedPlacesHelper'
 import { useFocusEffect } from '@react-navigation/native'
 import SavedCard from '../../components/tabComponents/SavedCard'
 import { ActivityIndicator } from 'react-native-paper'
+import MapView from 'react-native-maps'
 
 const SavedScreen = ({navigation}: any) => {
   const [Placesdata, setPlacesdata] = useState([])

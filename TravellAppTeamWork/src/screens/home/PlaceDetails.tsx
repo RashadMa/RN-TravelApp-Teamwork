@@ -1,4 +1,4 @@
-import { Image, SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { Image, Linking, SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { BaseNetwork } from '../../network/api';
 import MapView, { Marker } from 'react-native-maps';
@@ -7,6 +7,15 @@ const PlaceDetails = ({ route }: any) => {
   const [detail, setDetail] = useState<any>({});
   const [loading, setloading] = useState(true)
   let { id } = route.params;
+
+  const goToMap = () => {
+    const location = {
+      latitude: detail.lat,
+      longitude: detail.long,
+    }
+    const URL = `https://www.google.com/maps/search/?api=1&query=${location}`
+    Linking.openURL(URL)
+  }
 
   useEffect(() => {
     let baseNetwork = new BaseNetwork();
@@ -66,7 +75,7 @@ const PlaceDetails = ({ route }: any) => {
                 description="Marker Description"
               />
             </MapView>
-            <TouchableOpacity style={styles.mapButton}>
+            <TouchableOpacity onPress={goToMap} style={styles.mapButton}>
               <Text style={styles.btnText}>Go to map</Text>
             </TouchableOpacity>
           </View>

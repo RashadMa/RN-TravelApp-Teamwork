@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
-import Geolocation from 'react-native-geolocation-service';
 import axios from 'axios';
+import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+import Geolocation from 'react-native-geolocation-service';
 
 const App = () => {
       const [weather, setWeather] = useState<any>(null);
@@ -40,7 +40,7 @@ const App = () => {
       };
 
       if (loading) {
-            return <Text>Loading...</Text>;
+            return <Text style={{ color: "#fff" }}>Loading...</Text>;
       }
 
       if (!weather) {
@@ -71,7 +71,7 @@ const App = () => {
             main: { temp } = {},
             weather: weatherDetails
       } = weather;
-      
+
       const weatherCondition = weatherDetails[0]?.main;
       const weatherIconName = getWeatherIconName(weatherCondition);
       return (

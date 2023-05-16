@@ -46,14 +46,14 @@ const CategoryListScren = ({ navigation }: any) => {
                         borderColor: '#494949',
                   }
 
-            return <>
+            return (
                   <Pressable style={styles.box} onPress={() => categoryOperation(item)}>
                         <View style={[styles.hello, style]}>
                               <Text style={styles.icon}>{item.icon}</Text>
                               <Text style={styles.text}>{item.name}</Text>
                         </View>
-                  </Pressable>
-            </>
+                  </Pressable>)
+         
       }
 
 
@@ -70,28 +70,33 @@ const CategoryListScren = ({ navigation }: any) => {
       }
       return (
             <SafeAreaView style={styles.container}>
-                  <ActivityIndicator style={styles.loading} animating={loading} />
-                  {
-                        loading ? <></> : <View style={{ marginHorizontal: 15 }}>
-                              <View style={styles.textWrapper}>
-                                    <Text style={styles.title}>Choose your interest</Text>
-                                    <Text style={styles.desc}>Select at least 2 options that we can suggest you on the home page.</Text>
+                  <View style={{ margin: 15 }}>
+                        <ActivityIndicator style={styles.loading} animating={loading} />
+                        {
+                              loading ? <></> : <View>
+                                    <View style={styles.textWrapper}>
+                                          <Text style={styles.title}>Choose your interest</Text>
+                                          <Text style={styles.desc}>Select at least 2 options that we can suggest you on the home page.</Text>
+                                    </View>
+                                    <View
+                                    >
+                                          <FlatList
+                                                data={categoriesData}
+                                                renderItem={renderItem}
+                                                numColumns={2}
+                                                columnWrapperStyle={{justifyContent:"space-around"}}
+                                          />
+                                    </View>
+                                    <View style={{ flexDirection: "row", justifyContent: "center" }}>
+                                          <TouchableOpacity style={styles.btn} onPress={next}>
+                                                <Text style={styles.btnText}>
+                                                      Next
+                                                </Text>
+                                          </TouchableOpacity>
+                                    </View>
                               </View>
-                              <FlatList
-                                    data={categoriesData}
-                                    renderItem={renderItem}
-                                    numColumns={2}
-                              />
-                              <View style={{flexDirection:"row", justifyContent:"center"}}>
-                                    <TouchableOpacity style={styles.btn} onPress={next}>
-                                          <Text style={styles.btnText}>
-                                                Next
-                                          </Text>
-                                    </TouchableOpacity>
-                              </View>
-
-                        </View>
-                  }
+                        }
+                  </View>
             </SafeAreaView>
       )
 }
@@ -133,7 +138,7 @@ const styles = StyleSheet.create({
             backgroundColor: "#018CF1",
             borderRadius: 8,
             height: 48,
-            width: 343,
+            width: "95%",
             justifyContent: 'center',
             alignItems: 'center',
       },
@@ -151,7 +156,7 @@ const styles = StyleSheet.create({
             justifyContent: 'center',
             alignItems: 'center', width: 164,
             height: 125,
-            marginRight: 28,
+            // marginRight: 28,
             marginBottom: 16,
       },
       loading: {

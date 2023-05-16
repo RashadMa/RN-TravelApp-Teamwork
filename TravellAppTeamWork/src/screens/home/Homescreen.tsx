@@ -24,8 +24,6 @@ const Homescreen = ({ item, navigation }: any) => {
       })
   }, [])
 
-
-
   const renderItem = ({ item }: any) => {
     return (<>
       <TouchableOpacity onPress={() => navigation.navigate('placesdetails', { id: item.id })} >

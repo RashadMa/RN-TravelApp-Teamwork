@@ -79,7 +79,7 @@ const styles = StyleSheet.create({
     fontWeight: '500',
   },
   btnGetStarted: {
-    width: 343,
+    width: "95%",
     height: 50,
     backgroundColor: '#018CF1',
     borderRadius: 8,
