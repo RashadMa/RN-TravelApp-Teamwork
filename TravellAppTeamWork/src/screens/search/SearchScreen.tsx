@@ -10,6 +10,7 @@ const SearchScreen = ({ navigation }: any) => {
   const [Catdata, setCatdata] = useState([])
   const [data, setdata] = useState([])
   const [loading, setloading] = useState(true)
+  const [isPressed, setisPressed] = useState<any>()
 
 
   useEffect(() => {
@@ -32,11 +33,18 @@ const SearchScreen = ({ navigation }: any) => {
     let filtereddata = PlacesdataSearch.filter((c): any => c.name.toLowerCase().includes(value.toLowerCase()))
     setdata(filtereddata);
   }
+  const SearchByCategory = (id: any) => {
+    let filtered = PlacesdataSearch.filter(c => c.categoryId == id)
+    setdata(filtered);
+    setisPressed(id)
+  }
 
   const renderItemCat = ({ item }: any) => {
     return (
       <View>
-        <CategoryListCard item={item} />
+        <TouchableOpacity onPress={() => SearchByCategory(item.id)}>
+          <CategoryListCard color={item.id == isPressed?'#E0783E':'#1C1C1C'} item={item} />
+        </TouchableOpacity>
       </View>
     )
   }
