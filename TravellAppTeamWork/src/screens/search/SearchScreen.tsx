@@ -5,6 +5,7 @@ import CategoryListCard from '../../components/tabComponents/CategoryListCard'
 import SearchCard from '../../components/tabComponents/SearchCard'
 import { BaseNetwork } from '../../network/api'
 import { ThemeContext } from '../../context/ThemeContext'
+import { useTranslation } from 'react-i18next'
 
 const SearchScreen = ({ navigation }: any) => {
   const [PlacesdataSearch, setPlacesdataSearch] = useState([])
@@ -13,7 +14,7 @@ const SearchScreen = ({ navigation }: any) => {
   const [loading, setloading] = useState(true)
   const [isPressed, setisPressed] = useState<any>()
   const { theme, toggleTheme } = useContext(ThemeContext);
-
+  const {t} = useTranslation();
   const containerStyles = {
     backgroundColor: theme === 'dark' ? '#fff' : '#1c1c1c',
   };
@@ -63,7 +64,7 @@ const SearchScreen = ({ navigation }: any) => {
       </TouchableOpacity>
     )
   }
-
+  const placehold = t('Search by items')
   return (
     <SafeAreaView style={[styles.container, containerStyles]}>
       <View style={{ margin: 15 }}>
@@ -71,7 +72,7 @@ const SearchScreen = ({ navigation }: any) => {
         {
           loading ? <></> : <>
             <View>
-              <TextInput onChangeText={Searching} style={[styles.input, inputBgc]} placeholderTextColor={'#B9B9B9'} placeholder='🔍  Search by items' />
+              <TextInput onChangeText={Searching} style={[styles.input, inputBgc]} placeholderTextColor={'#B9B9B9'} placeholder={placehold} />
             </View>
             <View style={styles.categorieslist}>
               <FlatList

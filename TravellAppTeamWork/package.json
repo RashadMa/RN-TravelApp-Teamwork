@@ -19,6 +19,7 @@
     "@react-navigation/native-stack": "^6.9.12",
     "@types/react-native-maps": "^0.24.2",
     "axios": "^1.4.0",
+    "i18next": "^22.4.15",
     "react": "18.2.0",
     "react-i18next": "^12.2.2",
     "react-native": "0.71.7",

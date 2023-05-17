@@ -40,7 +40,7 @@ const TabMain = () => {
                         <Tab.Screen name='SettingsScreen' component={SettingScreen}
                               options={{
                                     tabBarIcon: ({ focused }) => {
-                                          return <Image style={{ tintColor: focused ? '#E0783E' : '#494949' }} source={require('../assets/images/baricons/savedicon.png')} />
+                                          return <Image style={{ tintColor: focused ? '#E0783E' : '#494949' }} source={require('../assets/images/baricons/settingicon.png')} />
                                     }
                               }} />
                   </Tab.Navigator>
