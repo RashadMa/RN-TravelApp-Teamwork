@@ -41,16 +41,19 @@ const SearchCard = ({ item }: any) => {
   }, [])
 
   useEffect(() => {
-    if (isFocused) {
-      getUserPlaces().then((res: any) => {
-        setdata(res);
-        if (res.find((e: any) => e.id == item.id)) {
-          setisSaved(true)
-        }
-      })
-
-    }
+        if (isFocused) {
+            getUserPlaces().then((res: any) => {
+              setdata(res);
+              if (res.find((e: any) => e.id == item.id)) {                
+                setisSaved(true)
+                return;
+              }
+            })
+      
+          }
   }, [isFocused])
+
+  
 
   const Save = () => {
     if (!isSaved) {

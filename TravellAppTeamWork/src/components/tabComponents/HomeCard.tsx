@@ -16,20 +16,23 @@ const HomeCard = ({ item, textStyles }: any) => {
     useEffect(() => {
         let network = new BaseNetwork();
         network.getAll('places').then((res) => {
-            setalldata(res);
+          setalldata(res);
         })
-    }, [])
-
-    useEffect(() => {
-        if (isFocused) {
-            getUserPlaces().then((res: any) => {
-                setdata(res);
-                if (res.find((e: any) => e.id == item.id)) {
+      }, [])
+    
+      useEffect(() => {
+            if (isFocused) {
+                getUserPlaces().then((res: any) => {
+                  setdata(res);
+                  if (res.find((e: any) => e.id == item.id)) {                
                     setisSaved(true)
-                }
-            })
-        }
-    }, [isFocused])
+                    return;
+                  }
+                })
+          
+              }
+      }, [isFocused])
+    
     
     const Save = () => {
         if (!isSaved) {
