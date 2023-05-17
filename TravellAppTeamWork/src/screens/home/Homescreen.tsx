@@ -1,4 +1,4 @@
-import { FlatList, SafeAreaView, StyleSheet, Text, TouchableOpacity, View, ScrollView } from 'react-native'
+import { FlatList, SafeAreaView, StyleSheet, Text, TouchableOpacity, View, ScrollView, SectionList } from 'react-native'
 import React, { useContext, useEffect, useState } from 'react'
 import { BaseNetwork } from '../../network/api';
 import { ActivityIndicator } from 'react-native-paper';
@@ -7,6 +7,7 @@ import WeatherSecond from './WeatherSecond';
 import { getUserCategories } from '../../utils/storage/userSavedCategoriesHelper';
 import { ThemeContext } from '../../context/ThemeContext';
 import { useTranslation } from 'react-i18next';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Homescreen = ({ item, navigation }: any) => {
   const [restaurant, setRestaurant] = useState<any[]>([]);
@@ -15,6 +16,23 @@ const Homescreen = ({ item, navigation }: any) => {
   const [categoriesData, setCategoriesData] = useState<any[]>([]);
   const { theme, toggleTheme } = useContext(ThemeContext);
   const { t } = useTranslation();
+  const [selectedCategories, setSelectedCategories] = useState<any[]>([]);
+
+  useEffect(() => {
+    // Fetch the selected categories from AsyncStorage when the component mounts
+    const fetchSelectedCategories = async () => {
+      const storedCategories = await AsyncStorage.getItem('userCategories');
+      if (storedCategories) {
+        const parsedCategories = JSON.parse(storedCategories);
+        setSelectedCategories(parsedCategories);
+      }
+    };
+
+    fetchSelectedCategories();
+    // console.log(selectedCategories[0].id, 'userCategories');
+
+  }, []);
+
   //#region styles
 
   const containerStyles = {
@@ -32,10 +50,20 @@ const Homescreen = ({ item, navigation }: any) => {
     let baseNetwork = new BaseNetwork();
     baseNetwork.getAll('places')
       .then((data) => {
-        const rest = data.filter((q: any) => q.categoryId == 1);
-        const htls = data.filter((q: any) => q.categoryId == 5);
+        const rest = data.filter((q: any) => {
+          return selectedCategories.map((category) => category.id === q.categoryId);
+        });
+        // const htls = data.filter((q: any) => q.categoryId == 5);
+        // const selected = selectedCategories.filter((q: any) => q.id == data.categoryId);
+        // const filteredPlaces = data.filter(() => {
+
+        //   let a =  selectedCategories.filter((category) => category.id === data.categoryId);
+        //   console.log(a, 'a');
+        //   return 
+        // });
+        // console.log(selectedCategories[0].id, 'filteredPlaces');
         setRestaurant(rest);
-        setHotels(htls);
+        // setHotels(htls);
         setLoading(false);
       }).catch(err => {
         console.log('Error ', err);
@@ -57,9 +85,14 @@ const Homescreen = ({ item, navigation }: any) => {
     )
   }
 
+  const sections = selectedCategories.map((category) => {
+    const filteredPlaces = restaurant.filter((place) => place.categoryId === category.id);
+    return { title: category.name, data: filteredPlaces };
+  });
+
   return (
     <SafeAreaView style={[styles.container, containerStyles]}>
-      <ScrollView>
+      <View>
         <ActivityIndicator style={styles.loading} animating={loading} />
         {
           loading ? <></> : <View style={{ margin: 15 }}>
@@ -67,30 +100,43 @@ const Homescreen = ({ item, navigation }: any) => {
               {
                 <WeatherSecond textStyles={textStyles} />
               }
-              <Text style={[styles.headerText, textStyles]}>{t('Restaurants nearby')}</Text>
+              {/* <Text style={[styles.headerText, textStyles]}>{t('Restaurants nearby')}</Text> */}
               <View>
-                <FlatList
+                <SectionList
+                horizontal={true}
+                  sections={sections}
+                  keyExtractor={(item) => item.id.toString()}
+                  renderSectionHeader={({ section: { title } }) => (
+                    <Text style={[styles.headerText, textStyles]}>{title}s nearby</Text>
+                  )}
+                  renderItem={({ item }) => (
+                    <TouchableOpacity onPress={() => navigation.navigate('placesdetails', { id: item.id })} >
+                      <HomeCard textStyles={textStyles} item={item} />
+                    </TouchableOpacity>
+                  )}
+                />
+                {/* <FlatList
                   data={restaurant}
                   renderItem={renderItem}
                   horizontal={true}
                   showsHorizontalScrollIndicator={false}
-                />
+                /> */}
               </View>
             </View>
             <View style={styles.headerWrapper}>
               <Text style={[styles.headerText, textStyles]}>{t('Hotels nearby')}</Text>
               <View>
-                <FlatList
+                {/* <FlatList
                   data={hotels}
                   renderItem={renderItem}
                   horizontal={true}
                   showsHorizontalScrollIndicator={false}
-                />
+                /> */}
               </View>
             </View>
           </View>
         }
-      </ScrollView>
+      </View>
     </SafeAreaView>
   )
 }

@@ -6,86 +6,121 @@ import { BaseNetwork } from '../../network/api';
 import { userSavedCategoriesHelper } from '../../utils/storage/userSavedCategoriesHelper';
 import { Category } from '../../interfaces/Category';
 import { ActivityIndicator } from 'react-native-paper';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const CategoryListScren = ({ navigation }: any) => {
-      const [categories, setCategories] = useState<Category[]>([]);
-      const [categoriesData, setCategoriesData] = useState<Category[]>([]);
-      const { firstLogin, setFirstLogin } = useContext(FirstLoginContext);
-      const [loading, setloading] = useState(true)
-      const [selectedCategories, setselectedCategories] = useState<any>();
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [categoriesData, setCategoriesData] = useState<Category[]>([]);
+  const { firstLogin, setFirstLogin } = useContext(FirstLoginContext);
+  const [loading, setLoading] = useState(true);
+  const [selectedCategories, setSelectedCategories] = useState<any>([]);
+    
+//   const categoryOperation = (item: Category) => {
+//     let categoryControl = categories.find(q => q.id == item.id);
+//     if (categoryControl) {
+//       let filteredCategories = categories.filter(q => q.id !== item.id);
+//       let selected  = categories.filter(c => c.id == item.id);
+//       setSelectedCategories([item, selected]);
+//       setCategories(filteredCategories);
+//       // setSelectedCategories(filteredCategories); 
+//       console.log(selectedCategories, 'selectedCategories');
+      
+//     } else {
+//       setCategories([...categories, item]);
+//     }
+//   };
 
-      const categoryOperation = (item: Category) => {
-            // let categoryControl = categories.find(q => q.id == item.id);
-            let categoryControl = categories.find(q => q.id == item.id);
-            if (categoryControl) {
-                  let filteredCategories = categories.filter(q => q.id != item.id);
-                  let nextCategories = categories.filter(q => q.id == item.id)
-                  setCategories(filteredCategories);
-                  setselectedCategories([...nextCategories, item]);
-            }
-            else {
-                  setCategories([...categories, item])
-            }
+
+
+
+
+
+const handleCategoryPress = async (item: any) => {
+      // Check if the category is already selected
+      const isCategorySelected = selectedCategories.includes(item);
+    
+      let updatedCategories: string[];
+    
+      if (isCategorySelected) {
+        // Category is already selected, remove it from the selectedCategories array
+        updatedCategories = selectedCategories.filter(
+          (selectedCategory: any) => selectedCategory !== item
+        );
+      } else {
+        // Category is not selected, add it to the selectedCategories array
+        updatedCategories = [...selectedCategories, item];
       }
+    
+      setSelectedCategories(updatedCategories);
+    
+      // Store the updated selectedCategories array in AsyncStorage
+      await AsyncStorage.setItem('selectedCategories', JSON.stringify(updatedCategories));
+    };
+    
+  
 
-      useEffect(() => {
-            let baseNetwork = new BaseNetwork();
-            baseNetwork.getAll('categories')
-                  .then(data => {
-                        setCategories(data);
-                        setCategoriesData(data);
-                        setloading(false);
-                  })
-                  .catch(err => {
-                        console.log('Error ', err);
-                  })
-      }, [])
 
-      const renderItem = ({ item }: any) => {
-            let style = {};
 
-            let categoryControl = categories.find(q => q.id == item.id);
 
-            if (categoryControl)
-                  style = {
-                        borderColor: '#494949',
-                  }
 
-            return (
-                  <Pressable style={styles.box} onPress={() => categoryOperation(item)}>
-                        <View style={[styles.hello, style]}>
-                              <Text style={styles.icon}>{item.icon}</Text>
-                              <Text style={styles.text}>{item.name}</Text>
-                        </View>
-                  </Pressable>)
-      }
+  
 
-      const next = () => {
-            if (categories.length > 0) {
-                  userSavedCategoriesHelper(selectedCategories)
-                        .then(res => {
-                              console.log('res', res);
-                              
-                              setFirstLogin(false)
-                        })
-            }
-            else {
-                  setFirstLogin(false)
-            }
-      }
+    useEffect(() => {
+      AsyncStorage.getItem('userCategories').then((res) => {console.log('res', res)})
+    }, [])
 
-      // const Save = () => {
-      //           save([...data, item])
-      //           setdata([...data, item])
-      //           setisSaved(true)
-      //       }
-      //       else {
-      //           let filtered = data.filter(c => c.id != item.id)
-      //           setdata(filtered)
-      //           saveUserPlaces(filtered)
-      //           setisSaved(false)
-      //       }
-      //   }
+  useEffect(() => {
+    let baseNetwork = new BaseNetwork();
+    baseNetwork
+      .getAll('categories')
+      .then(data => {
+        setCategories(data);
+        setCategoriesData(data);
+        setLoading(false);
+      })
+      .catch(err => {
+        console.log('Error ', err);
+      });
+  }, []);
+
+  const renderItem = ({ item }: any) => {
+    let style = {};
+
+    let categoryControl = categories.find(q => q.id == item.id);
+
+    if (categoryControl)
+      style = {
+        borderColor: '#494949',
+      };
+
+    return (
+      <Pressable style={styles.box} onPress={() => handleCategoryPress(item)}>
+        <View style={[styles.hello, style]}>
+          <Text style={styles.icon}>{item.icon}</Text>
+          <Text style={styles.text}>{item.name}</Text>
+        </View>
+      </Pressable>
+    );
+  };
+
+  const next = () => {
+    if (categories.length > 0) {
+      userSavedCategoriesHelper(selectedCategories)
+        .then(res => {
+          console.log('res', res);
+          setFirstLogin(false);
+          console.log(selectedCategories);
+          AsyncStorage.setItem('userCategories', JSON.stringify(selectedCategories));
+          console.log('userCategories', selectedCategories);
+          
+        })
+        .catch(err => {
+          console.log('Error saving categories to AsyncStorage:', err);
+        });
+    } else {
+      setFirstLogin(false);
+    }
+  };
 
       return (
             <SafeAreaView style={styles.container}>
