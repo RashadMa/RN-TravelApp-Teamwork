@@ -5,12 +5,13 @@ import { ActivityIndicator } from 'react-native-paper'
 import SavedCard from '../../components/tabComponents/SavedCard'
 import { ThemeContext } from '../../context/ThemeContext'
 import { getUserPlaces } from '../../utils/storage/userSavedPlacesHelper'
+import { useTranslation } from 'react-i18next'
 
 const SavedScreen = ({ navigation }: any) => {
   const [placesdata, setPlacesdata] = useState([])
   const [loading, setLoading] = useState(true)
   const { theme } = useContext(ThemeContext);
-
+  const {t} = useTranslation();
   const containerStyles = {
     backgroundColor: theme === 'dark' ? '#fff' : '#1c1c1c',
   };
@@ -41,7 +42,7 @@ const SavedScreen = ({ navigation }: any) => {
         {
           loading ? <></> : <>
             <View style={{ marginBottom: 15 }}>
-              <Text style={[styles.headertext, textStyles]}>Saved</Text>
+              <Text style={[styles.headertext, textStyles]}>{t('Saved')}</Text>
             </View>
             {
               placesdata ? <Text style={[styles.headertext, textStyles]}>No Saved Places</Text> : <View>

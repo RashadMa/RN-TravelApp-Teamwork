@@ -10,6 +10,7 @@ import {
 import OnboardingItem from '../../components/onboard/OnboardingItem';
 import Pagination from '../../components/onboard/Pagination';
 import Onboard from '../../interfaces/Onboard';
+import { useTranslation } from 'react-i18next';
 
 const OnboardScreen = ({navigation}) => {
   const nextHandler = () => {
@@ -22,7 +23,7 @@ const OnboardScreen = ({navigation}) => {
   };
   const [currentIndex, setCurrentIndex] = useState(0);
   const slidersRef = useRef(null);
-
+  // const {t} = useTranslation();
   return (
     <SafeAreaView style={styles.container}>
       <FlatList
@@ -44,7 +45,7 @@ const OnboardScreen = ({navigation}) => {
       ) : (
         <View style={styles.btnGetStartedWrapper}>
           <TouchableOpacity style={styles.btnGetStarted} onPress={nextHandler}>
-            <Text style={styles.btnText}>Get started</Text>
+            <Text style={styles.btnText}>Get Started</Text>
           </TouchableOpacity>
         </View>
       )}

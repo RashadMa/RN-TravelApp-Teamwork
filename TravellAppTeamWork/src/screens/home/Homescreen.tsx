@@ -6,6 +6,7 @@ import HomeCard from '../../components/tabComponents/HomeCard';
 import WeatherSecond from './WeatherSecond';
 import { getUserCategories } from '../../utils/storage/userSavedCategoriesHelper';
 import { ThemeContext } from '../../context/ThemeContext';
+import { useTranslation } from 'react-i18next';
 
 const Homescreen = ({ item, navigation }: any) => {
   const [restaurant, setRestaurant] = useState<any[]>([]);
@@ -13,7 +14,7 @@ const Homescreen = ({ item, navigation }: any) => {
   const [loading, setLoading] = useState(true);
   const [categoriesData, setCategoriesData] = useState<any[]>([]);
   const { theme, toggleTheme } = useContext(ThemeContext);
-
+  const { t } = useTranslation();
   //#region styles
 
   const containerStyles = {
@@ -66,7 +67,7 @@ const Homescreen = ({ item, navigation }: any) => {
               {
                 <WeatherSecond textStyles={textStyles} />
               }
-              <Text style={[styles.headerText, textStyles]}>Restaurants nearby</Text>
+              <Text style={[styles.headerText, textStyles]}>{t('Restaurants nearby')}</Text>
               <View>
                 <FlatList
                   data={restaurant}
@@ -77,7 +78,7 @@ const Homescreen = ({ item, navigation }: any) => {
               </View>
             </View>
             <View style={styles.headerWrapper}>
-              <Text style={[styles.headerText, textStyles]}>Hotels nearby</Text>
+              <Text style={[styles.headerText, textStyles]}>{t('Hotels nearby')}</Text>
               <View>
                 <FlatList
                   data={hotels}
