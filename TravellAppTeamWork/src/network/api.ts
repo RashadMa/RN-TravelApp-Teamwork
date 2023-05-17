@@ -2,17 +2,15 @@ import {axiosInstance} from './axiosInstance';
 
 export class BaseNetwork {
   async getAll(url: string) {
-    let response: any[] = [];
+    let response: any = {};
 
     try {
-      await axiosInstance.get(url).then(res => {
-        response = res.data;
-      });
+      response= await axiosInstance.get(url)
     } catch (error) {
       throw error;
     }
 
-    return response;
+    return response.data;
   }
 
   async getById(url: string, id: number) {

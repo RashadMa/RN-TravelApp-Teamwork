@@ -1,58 +1,49 @@
-import { StyleSheet, Text, View, TouchableOpacity, Image, Platform, PermissionsAndroid } from 'react-native'
-import React, { useEffect, useState } from 'react'
-import { getUserPlaces, saveUserPlaces } from '../../utils/storage/userSavedPlacesHelper';
-import { useFocusEffect, useIsFocused } from '@react-navigation/native';
-import { BaseNetwork } from '../../network/api';
 import Geolocation, { GeolocationResponse } from '@react-native-community/geolocation';
+import { useIsFocused } from '@react-navigation/native';
+import React, { useEffect, useState } from 'react';
+import { Image, PermissionsAndroid, Platform, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { BaseNetwork } from '../../network/api';
+import { getUserPlaces, saveUserPlaces } from '../../utils/storage/userSavedPlacesHelper';
 
-const HomeCard = ({ item }: any) => {
+const HomeCard = ({ item, textStyles }: any) => {
     const [data, setdata] = useState<any[]>([])
     const [alldata, setalldata] = useState<any[]>([])
     const [isSaved, setisSaved] = useState(false)
     const [latitude, setLatitude] = useState<number | null>(null);
     const [longitude, setLongitude] = useState<number | null>(null);
-     
+
     const isFocused = useIsFocused();
     useEffect(() => {
         let network = new BaseNetwork();
         network.getAll('places').then((res) => {
-          setalldata(res);
+            setalldata(res);
         })
-      }, [])
-    
-      useEffect(() => {
+    }, [])
+
+    useEffect(() => {
         if (isFocused) {
-          getUserPlaces().then((res: any) => {
-            setdata(res);
-            if (res.find((e: any) => e.id == item.id)) {
-              setisSaved(true)
-            }
-          })
-    
+            getUserPlaces().then((res: any) => {
+                setdata(res);
+                if (res.find((e: any) => e.id == item.id)) {
+                    setisSaved(true)
+                }
+            })
         }
-      }, [isFocused])
+    }, [isFocused])
     
-    
-    
-      const Save = () => {
-    
-    
-    
+    const Save = () => {
         if (!isSaved) {
-          saveUserPlaces([...data, item])
-          setdata([...data, item])
-          setisSaved(true)
-    
-    
+            saveUserPlaces([...data, item])
+            setdata([...data, item])
+            setisSaved(true)
         }
         else {
-          let filtered = data.filter(c => c.id != item.id)
-          setdata(filtered)
-          saveUserPlaces(filtered)
-          setisSaved(false)
+            let filtered = data.filter(c => c.id != item.id)
+            setdata(filtered)
+            saveUserPlaces(filtered)
+            setisSaved(false)
         }
-    
-      }
+    }
 
     useEffect(() => {
         getCurrentLocation().then(coords => {
@@ -72,10 +63,9 @@ const HomeCard = ({ item }: any) => {
         lat2: number,
         lon2: number
     ): number => {
-        const R = 6371; // Earth's radius in kilometers
+        const R = 6371;
         const dLat = toRadians(lat2 - lat1);
         const dLon = toRadians(lon2 - lon1);
-
         const a =
             Math.sin(dLat / 2) * Math.sin(dLat / 2) +
             Math.cos(toRadians(lat1)) *
@@ -84,7 +74,6 @@ const HomeCard = ({ item }: any) => {
             Math.sin(dLon / 2);
 
         const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-
         const distance = R * c;
         return distance;
     };
@@ -153,6 +142,7 @@ const HomeCard = ({ item }: any) => {
             return false;
         }
     };
+    
 
     return (
         <View style={styles.restaurants}>
@@ -166,16 +156,16 @@ const HomeCard = ({ item }: any) => {
             </View>
             <Image source={{ uri: item.imageUrl }} style={{ borderTopLeftRadius: 12, borderTopRightRadius: 12, width: '100%', height: 200, resizeMode: "cover" }} />
             <View style={{ padding: 10 }}>
-                <Text style={styles.rstName}>{item.name}</Text>
+                <Text style={[styles.rstName, textStyles]}>{item.name}</Text>
             </View>
             <View style={styles.cardFooter}>
-                <Text style={styles.footerTexts}>
+                <Text style={[styles.footerTexts, textStyles]}>
                     📍 {distance.toFixed(2)} km
                 </Text>
-                <Text style={styles.footerTexts}>
+                <Text style={[styles.footerTexts, textStyles]}>
                     🕘 {item.openCloseTime}
                 </Text>
-                <Text style={styles.footerTexts}>
+                <Text style={[styles.footerTexts, textStyles]}>
                     ⭐️ {item.rate}
                 </Text>
             </View>

@@ -1,57 +1,70 @@
 import { useFocusEffect, useIsFocused } from '@react-navigation/native'
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { BaseNetwork } from '../../network/api'
 import { getUserPlaces, saveUserPlaces } from '../../utils/storage/userSavedPlacesHelper'
+import { ThemeContext } from '../../context/ThemeContext'
 
-const SearchCard = ({ item, navigation }: any) => {
+const SearchCard = ({ item }: any) => {
   const [data, setdata] = useState<any[]>([])
   const [alldata, setalldata] = useState<any[]>([])
   const [isSaved, setisSaved] = useState(false)
+  const { theme } = useContext(ThemeContext);
 
+  const containerStyles = {
+    backgroundColor: theme === 'dark' ? '#1c1c1c' : '#fff',
+  };
+
+  const inputBgc = {
+    backgroundColor: theme === 'dark' ? '#262626' : 'lightgrey',
+  };
+
+  const textStyles = {
+    color: theme === 'dark' ? '#fff' : '#1c1c1c',
+  };
+
+  const buttonStyles = {
+    marginTop: 20,
+    padding: 10,
+    backgroundColor: theme === 'dark' ? '#fff' : '#1c1c1c',
+  };
+
+  const buttonTextStyles = {
+    color: theme === 'dark' ? '#1c1c1c' : '#fff',
+  };
   const isFocused = useIsFocused();
-    useEffect(() => {
-        let network = new BaseNetwork();
-        network.getAll('places').then((res) => {
-          setalldata(res);
-        })
-      }, [])
-    
-      useEffect(() => {
-        if (isFocused) {
-          getUserPlaces().then((res: any) => {
-            setdata(res);
-            if (res.find((e: any) => e.id == item.id)) {
-              setisSaved(true)
-            }
-          })
-    
-        }
-      }, [isFocused])
-    
-    
-    
-      const Save = () => {
-    
-    
-    
-        if (!isSaved) {
-          saveUserPlaces([...data, item])
-          setdata([...data, item])
-          setisSaved(true)
-    
-    
-        }
-        else {
-          let filtered = data.filter(c => c.id != item.id)
-          setdata(filtered)
-          saveUserPlaces(filtered)
-          setisSaved(false)
-        }
-    
-      }
+  useEffect(() => {
+    let network = new BaseNetwork();
+    network.getAll('places').then((res) => {
+      setalldata(res);
+    })
+  }, [])
 
-   
+  useEffect(() => {
+    if (isFocused) {
+      getUserPlaces().then((res: any) => {
+        setdata(res);
+        if (res.find((e: any) => e.id == item.id)) {
+          setisSaved(true)
+        }
+      })
+
+    }
+  }, [isFocused])
+
+  const Save = () => {
+    if (!isSaved) {
+      saveUserPlaces([...data, item])
+      setdata([...data, item])
+      setisSaved(true)
+    }
+    else {
+      let filtered = data.filter(c => c.id != item.id)
+      setdata(filtered)
+      saveUserPlaces(filtered)
+      setisSaved(false)
+    }
+  }
 
   return (
     <>
@@ -65,16 +78,16 @@ const SearchCard = ({ item, navigation }: any) => {
         </View>
         <Image source={{ uri: item.imageUrl }} style={{ borderTopLeftRadius: 12, borderTopRightRadius: 12, width: '100%', height: 200, resizeMode: "cover" }} />
         <View style={{ padding: 10 }}>
-          <Text style={styles.rstName}>{item.name}</Text>
+          <Text style={[styles.rstName, textStyles]}>{item.name}</Text>
         </View>
         <View style={styles.cardFooter}>
-          <Text style={styles.footerTexts}>
+          <Text style={[styles.footerTexts, textStyles]}>
             📍 4 km
           </Text>
-          <Text style={styles.footerTexts}>
+          <Text style={[styles.footerTexts, textStyles]}>
             🕘 {item.openCloseTime}
           </Text>
-          <Text style={styles.footerTexts}>
+          <Text style={[styles.footerTexts, textStyles]}>
             ⭐️ {item.rate}
           </Text>
         </View>

@@ -1,12 +1,31 @@
 import { Image, Linking, SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { BaseNetwork } from '../../network/api';
 import MapView, { Marker } from 'react-native-maps';
+import { ThemeContext } from '../../context/ThemeContext';
 
 const PlaceDetails = ({ route }: any) => {
   const [detail, setDetail] = useState<any>({});
-  const [loading, setloading] = useState(true)
+  const { theme } = useContext(ThemeContext);
   let { id } = route.params;
+
+  const containerStyles = {
+    backgroundColor: theme === 'dark' ? '#1c1c1c' : '#fff',
+  };
+
+  const textStyles = {
+    color: theme === 'dark' ? '#fff' : '#1c1c1c',
+  };
+
+  const buttonStyles = {
+    marginTop: 20,
+    padding: 10,
+    backgroundColor: theme === 'dark' ? '#fff' : '#1c1c1c',
+  };
+
+  const buttonTextStyles = {
+    color: theme === 'dark' ? '#1c1c1c' : '#fff',
+  };
 
   const goToMap = () => {
     const location = {
@@ -22,7 +41,6 @@ const PlaceDetails = ({ route }: any) => {
     baseNetwork.getById('places/', id)
       .then(data => {
         setDetail(data);
-        setloading(false);
       })
       .catch(err => {
         console.log('Error ', err);
@@ -37,31 +55,31 @@ const PlaceDetails = ({ route }: any) => {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={[styles.container, containerStyles]}>
       <ScrollView>
         <View style={{ margin: 15 }}>
           <View style={styles.detailWrapper}>
             <Image source={{ uri: detail.imageUrl }} style={{ width: '100%', height: 220, resizeMode: "cover", borderRadius: 12 }} />
             <View style={styles.cardFooter}>
-              <Text style={styles.detailName}>{detail.name}</Text>
-              <Text style={styles.detailRate}>⭐️ {detail.rate}</Text>
+              <Text style={[styles.detailName, textStyles]}>{detail.name}</Text>
+              <Text style={[styles.detailRate, textStyles]}>⭐️ {detail.rate}</Text>
             </View>
           </View>
           <View style={styles.infoWrapper}>
             <View>
-              <Text style={styles.info}>
+              <Text style={[styles.info, textStyles]}>
                 Information
               </Text>
             </View>
             <View>
-              <Text style={styles.infoText}>🕘  Mon - Fri, {detail.openCloseTime}</Text>
-              <Text style={styles.infoText}>📞  {detail.phone}</Text>
-              <Text style={styles.infoText}>📍  {detail.adress}</Text>
+              <Text style={[styles.infoText, textStyles]}>🕘  Mon - Fri, {detail.openCloseTime}</Text>
+              <Text style={[styles.infoText, textStyles]}>📞  {detail.phone}</Text>
+              <Text style={[styles.infoText, textStyles]}>📍  {detail.adress}</Text>
             </View>
           </View>
           <View style={styles.mapWrapper}>
             <View>
-              <Text style={styles.mapText}>
+              <Text style={[styles.mapText, textStyles]}>
                 Map
               </Text>
             </View>
@@ -76,7 +94,7 @@ const PlaceDetails = ({ route }: any) => {
               />
             </MapView>
             <TouchableOpacity onPress={goToMap} style={styles.mapButton}>
-              <Text style={styles.btnText}>Go to map</Text>
+              <Text style={[styles.btnText, buttonTextStyles]}>Go to map</Text>
             </TouchableOpacity>
           </View>
         </View>

@@ -1,13 +1,24 @@
 import { useFocusEffect } from '@react-navigation/native'
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { BaseNetwork } from '../../network/api'
 import { getUserPlaces, saveUserPlaces } from '../../utils/storage/userSavedPlacesHelper'
+import { ThemeContext } from '../../context/ThemeContext'
 
 const SavedCard = ({ item }: any) => {
   const [data, setdata] = useState<any[]>([])
   const [alldata, setalldata] = useState<any[]>([])
   const [isSaved, setisSaved] = useState(false)
+  const { theme, toggleTheme } = useContext(ThemeContext);
+
+  const containerStyles = {
+    backgroundColor: theme === 'dark' ? '#1c1c1c' : '#fff',
+  };
+
+  const textStyles = {
+    color: theme === 'dark' ? '#fff' : '#1c1c1c',
+  };
+  
   useEffect(() => {
     let network = new BaseNetwork();
     network.getAll('places').then((res) => {
@@ -22,7 +33,6 @@ const SavedCard = ({ item }: any) => {
     })
   })
 
-  
   const Delete = () => {
     item.isSaved = false
     setalldata(alldata)
@@ -33,31 +43,31 @@ const SavedCard = ({ item }: any) => {
   }
   return (
     <>
-      <View style ={{marginBottom: 20,}}>
-      <View style={styles.restaurants}>
-        <View style={styles.bookmarkWrapper}>
-          <TouchableOpacity onPress={Delete}>
-            <Image style={styles.bookmark}
-              source={require('../../assets/icons/savedbookmark.png')}
-            />
-          </TouchableOpacity>
+      <View style={{ marginBottom: 20, }}>
+        <View style={[styles.restaurants, containerStyles]}>
+          <View style={styles.bookmarkWrapper}>
+            <TouchableOpacity onPress={Delete}>
+              <Image style={styles.bookmark}
+                source={require('../../assets/icons/savedbookmark.png')}
+              />
+            </TouchableOpacity>
+          </View>
+          <Image source={{ uri: item.imageUrl }} style={{ borderTopLeftRadius: 12, borderTopRightRadius: 12, width: '100%', height: 200, resizeMode: "cover" }} />
+          <View style={{ padding: 10 }}>
+            <Text style={[styles.rstName, textStyles]}>{item.name}</Text>
+          </View>
+          <View style={styles.cardFooter}>
+            <Text style={[styles.footerTexts, textStyles]}>
+              📍 4 km
+            </Text>
+            <Text style={[styles.footerTexts, textStyles]}>
+              🕘 {item.openCloseTime}
+            </Text>
+            <Text style={[styles.footerTexts, textStyles]}>
+              ⭐️ {item.rate}
+            </Text>
+          </View>
         </View>
-        <Image source={{ uri: item.imageUrl }} style={{ borderTopLeftRadius: 12, borderTopRightRadius: 12, width: '100%', height: 200, resizeMode: "cover" }} />
-        <View style={{ padding: 10 }}>
-          <Text style={styles.rstName}>{item.name}</Text>
-        </View>
-        <View style={styles.cardFooter}>
-          <Text style={styles.footerTexts}>
-            📍 4 km
-          </Text>
-          <Text style={styles.footerTexts}>
-            🕘 {item.openCloseTime}
-          </Text>
-          <Text style={styles.footerTexts}>
-            ⭐️ {item.rate}
-          </Text>
-        </View>
-      </View>
       </View>
     </>
   )

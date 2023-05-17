@@ -1,11 +1,17 @@
 import axios from 'axios';
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import Geolocation from 'react-native-geolocation-service';
+import { ThemeContext } from '../../context/ThemeContext';
 
-const App = () => {
+const App = ({ textStyles }: any) => {
       const [weather, setWeather] = useState<any>(null);
       const [loading, setLoading] = useState<boolean>(true);
+      const { theme } = useContext(ThemeContext);
+
+      const containerStyles = {
+            backgroundColor: theme === 'dark' ? '#262626' : 'lightgrey',
+          };
 
       useEffect(() => {
             const fetchData = async () => {
@@ -40,7 +46,7 @@ const App = () => {
       };
 
       if (loading) {
-            return <Text style={{ color: "#fff" }}>Loading...</Text>;
+            return <Text style={textStyles}>Loading...</Text>;
       }
 
       if (!weather) {
@@ -69,21 +75,21 @@ const App = () => {
       const {
             name: cityName,
             sys: { country: countryName } = {},
-            main: { temp} = {},
+            main: { temp } = {},
             weather: weatherDetails
-          } = weather || {};
+      } = weather || {};
 
       const weatherCondition = weatherDetails[0]?.main;
       const weatherIconName = getWeatherIconName(weatherCondition);
       return (
             <View>
                   <View style={styles.weatherWrapper}>
-                        <View style={{ width: "65%", height: 35, backgroundColor: "#262626", borderRadius: 10, justifyContent: 'center', paddingLeft: 10 }}>
-                              <Text style={styles.weatherCity}>📍  {cityName}, {countryName}</Text>
+                        <View style={[{ width: "65%", height: 35, backgroundColor: "#262626", borderRadius: 10, justifyContent: 'center', paddingLeft: 10 }, containerStyles]}>
+                              <Text style={[styles.weatherCity, textStyles]}>📍  {cityName}, {countryName}</Text>
                         </View>
-                        <View style={styles.deg}>
-                              <Text style={styles.weatherData}>{weatherIconName}</Text>
-                              <Text style={styles.weatherData}> {temp}°C</Text>
+                        <View style={[styles.deg, containerStyles]}>
+                              <Text style={[styles.weatherDat, textStyles]}>{weatherIconName}</Text>
+                              <Text style={[styles.weatherData, textStyles]}> {temp}°C</Text>
                         </View>
                   </View>
             </View>

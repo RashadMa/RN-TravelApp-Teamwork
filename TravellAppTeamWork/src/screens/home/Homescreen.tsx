@@ -1,14 +1,39 @@
 import { FlatList, SafeAreaView, StyleSheet, Text, TouchableOpacity, View, ScrollView } from 'react-native'
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { BaseNetwork } from '../../network/api';
 import { ActivityIndicator } from 'react-native-paper';
 import HomeCard from '../../components/tabComponents/HomeCard';
 import WeatherSecond from './WeatherSecond';
+import { getUserCategories } from '../../utils/storage/userSavedCategoriesHelper';
+import { ThemeContext } from '../../context/ThemeContext';
 
 const Homescreen = ({ item, navigation }: any) => {
   const [restaurant, setRestaurant] = useState<any[]>([]);
   const [hotels, setHotels] = useState<any[]>([]);
-  const [loading, setloading] = useState(true);
+  const [loading, setLoading] = useState(true);
+  const [categoriesData, setCategoriesData] = useState<any[]>([]);
+  const { theme, toggleTheme } = useContext(ThemeContext);
+
+  //#region styles
+
+  const containerStyles = {
+    backgroundColor: theme === 'dark' ? '#1c1c1c' : '#fff',
+  };
+
+  const textStyles = {
+    color: theme === 'dark' ? '#fff' : '#1c1c1c',
+  };
+
+  const buttonStyles = {
+    backgroundColor: theme === 'dark' ? '#fff' : '#1c1c1c',
+  };
+
+  const buttonTextStyles = {
+    color: theme === 'dark' ? '#1c1c1c' : '#fff',
+  };
+
+  //#endregion
+
 
   useEffect(() => {
     let baseNetwork = new BaseNetwork();
@@ -18,32 +43,38 @@ const Homescreen = ({ item, navigation }: any) => {
         const htls = data.filter((q: any) => q.categoryId == 5);
         setRestaurant(rest);
         setHotels(htls);
-        setloading(false);
+        setLoading(false);
       }).catch(err => {
         console.log('Error ', err);
       })
   }, [])
 
+  // useEffect(() => {
+  //   getUserCategories().then((res) => {
+  //     setCategoriesData(res);
+  //   })
+  // }, [])
+
   const renderItem = ({ item }: any) => {
     return (<>
       <TouchableOpacity onPress={() => navigation.navigate('placesdetails', { id: item.id })} >
-        <HomeCard item={item}/>
+        <HomeCard textStyles={textStyles} item={item} />
       </TouchableOpacity>
     </>
     )
   }
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={[styles.container, containerStyles]}>
       <ScrollView>
         <ActivityIndicator style={styles.loading} animating={loading} />
         {
           loading ? <></> : <View style={{ margin: 15 }}>
             <View style={styles.headerWrapper}>
               {
-                <WeatherSecond/>
+                <WeatherSecond textStyles={textStyles} />
               }
-              <Text style={styles.headerText}>Restaurants nearby</Text>
+              <Text style={[styles.headerText, textStyles]}>Restaurants nearby</Text>
               <View>
                 <FlatList
                   data={restaurant}
@@ -54,7 +85,7 @@ const Homescreen = ({ item, navigation }: any) => {
               </View>
             </View>
             <View style={styles.headerWrapper}>
-              <Text style={styles.headerText}>Hotels nearby</Text>
+              <Text style={[styles.headerText, textStyles]}>Hotels nearby</Text>
               <View>
                 <FlatList
                   data={hotels}
@@ -77,6 +108,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#1c1c1c',
+    // backgroundColor: theme === 'dark' ? '#1c1c1c' : '#fff',
   },
   headerWrapper: {
     marginVertical: 10

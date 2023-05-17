@@ -12,11 +12,16 @@ const CategoryListScren = ({ navigation }: any) => {
       const [categoriesData, setCategoriesData] = useState<Category[]>([]);
       const { firstLogin, setFirstLogin } = useContext(FirstLoginContext);
       const [loading, setloading] = useState(true)
+      const [selectedCategories, setselectedCategories] = useState<any>();
+
       const categoryOperation = (item: Category) => {
+            // let categoryControl = categories.find(q => q.id == item.id);
             let categoryControl = categories.find(q => q.id == item.id);
             if (categoryControl) {
                   let filteredCategories = categories.filter(q => q.id != item.id);
+                  let nextCategories = categories.filter(q => q.id == item.id)
                   setCategories(filteredCategories);
+                  setselectedCategories([...nextCategories, item]);
             }
             else {
                   setCategories([...categories, item])
@@ -53,14 +58,14 @@ const CategoryListScren = ({ navigation }: any) => {
                               <Text style={styles.text}>{item.name}</Text>
                         </View>
                   </Pressable>)
-         
       }
-
 
       const next = () => {
             if (categories.length > 0) {
-                  userSavedCategoriesHelper(categories)
+                  userSavedCategoriesHelper(selectedCategories)
                         .then(res => {
+                              console.log('res', res);
+                              
                               setFirstLogin(false)
                         })
             }
@@ -68,6 +73,20 @@ const CategoryListScren = ({ navigation }: any) => {
                   setFirstLogin(false)
             }
       }
+
+      // const Save = () => {
+      //           save([...data, item])
+      //           setdata([...data, item])
+      //           setisSaved(true)
+      //       }
+      //       else {
+      //           let filtered = data.filter(c => c.id != item.id)
+      //           setdata(filtered)
+      //           saveUserPlaces(filtered)
+      //           setisSaved(false)
+      //       }
+      //   }
+
       return (
             <SafeAreaView style={styles.container}>
                   <View style={{ margin: 15 }}>
@@ -84,7 +103,7 @@ const CategoryListScren = ({ navigation }: any) => {
                                                 data={categoriesData}
                                                 renderItem={renderItem}
                                                 numColumns={2}
-                                                columnWrapperStyle={{justifyContent:"space-around"}}
+                                                columnWrapperStyle={{ justifyContent: "space-around" }}
                                           />
                                     </View>
                                     <View style={{ flexDirection: "row", justifyContent: "center" }}>
@@ -156,7 +175,6 @@ const styles = StyleSheet.create({
             justifyContent: 'center',
             alignItems: 'center', width: 164,
             height: 125,
-            // marginRight: 28,
             marginBottom: 16,
       },
       loading: {

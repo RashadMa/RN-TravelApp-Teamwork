@@ -8,11 +8,9 @@ const CategoryListCard = (props: any) => {
   }
   return (
     <View>
-      
         <Text style={{ backgroundColor: props.color, color: 'white', fontSize: 14, padding: 10, borderWidth: 0.5, borderRadius: 8, marginRight: 10, borderColor: "#262626" }}>
           {props.item.icon}  {props.item.name}
         </Text>
-     
     </View>
   )
 }

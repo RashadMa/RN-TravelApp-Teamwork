@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { FlatList, SafeAreaView, StyleSheet, TextInput, TouchableOpacity, View } from 'react-native'
 import { ActivityIndicator } from 'react-native-paper'
 import CategoryListCard from '../../components/tabComponents/CategoryListCard'
 import SearchCard from '../../components/tabComponents/SearchCard'
 import { BaseNetwork } from '../../network/api'
+import { ThemeContext } from '../../context/ThemeContext'
 
 const SearchScreen = ({ navigation }: any) => {
   const [PlacesdataSearch, setPlacesdataSearch] = useState([])
@@ -11,7 +12,18 @@ const SearchScreen = ({ navigation }: any) => {
   const [data, setdata] = useState([])
   const [loading, setloading] = useState(true)
   const [isPressed, setisPressed] = useState<any>()
+  const { theme, toggleTheme } = useContext(ThemeContext);
 
+  const containerStyles = {
+    backgroundColor: theme === 'dark' ? '#1c1c1c' : '#fff',
+  };
+  const inputBgc = {
+    backgroundColor: theme === 'dark' ? '#262626' : 'lightgrey',
+  };
+
+  const catList = {
+    backgroundColor: theme === 'dark' ? '#262626' : 'lightgrey',
+  };
 
   useEffect(() => {
     let network = new BaseNetwork();
@@ -43,7 +55,7 @@ const SearchScreen = ({ navigation }: any) => {
     return (
       <View>
         <TouchableOpacity onPress={() => SearchByCategory(item.id)}>
-          <CategoryListCard color={item.id == isPressed?'#E0783E':'#1C1C1C'} item={item} />
+          <CategoryListCard color={item.id == isPressed ? '#E0783E' : '#1C1C1C'} item={item} />
         </TouchableOpacity>
       </View>
     )
@@ -57,13 +69,13 @@ const SearchScreen = ({ navigation }: any) => {
   }
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={[styles.container, containerStyles]}>
       <View style={{ margin: 15 }}>
         <ActivityIndicator style={styles.loading} animating={loading} />
         {
           loading ? <></> : <>
             <View>
-              <TextInput onChangeText={Searching} style={styles.input} placeholderTextColor={'#B9B9B9'} placeholder='🔍  Search by items' />
+              <TextInput onChangeText={Searching} style={[styles.input, inputBgc]} placeholderTextColor={'#B9B9B9'} placeholder='🔍  Search by items' />
             </View>
             <View style={styles.categorieslist}>
               <FlatList

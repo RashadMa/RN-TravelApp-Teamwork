@@ -1,16 +1,25 @@
 import { StyleSheet, Text, View, SafeAreaView, FlatList, TouchableOpacity } from 'react-native'
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { getUserPlaces } from '../../utils/storage/userSavedPlacesHelper'
 import { useFocusEffect } from '@react-navigation/native'
 import SavedCard from '../../components/tabComponents/SavedCard'
 import { ActivityIndicator } from 'react-native-paper'
 import MapView from 'react-native-maps'
+import { ThemeContext } from '../../context/ThemeContext'
 
 const SavedScreen = ({navigation}: any) => {
-  const [Placesdata, setPlacesdata] = useState([])
+  const [placesdata, setPlacesdata] = useState([])
   const [loading, setLoading] = useState(true)
+  const { theme } = useContext(ThemeContext);
 
+  const containerStyles = {
+    backgroundColor: theme === 'dark' ? '#1c1c1c' : '#fff',
+  };
 
+  const textStyles = {
+    color: theme === 'dark' ? '#fff' : '#1c1c1c',
+  };
+  
   useFocusEffect(() => {
     getUserPlaces().then((res) => {
       setPlacesdata(res);
@@ -27,18 +36,18 @@ const SavedScreen = ({navigation}: any) => {
   }
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={[styles.container, containerStyles]}>
       <View style={{ margin: 10 }}>
         <ActivityIndicator style={styles.loading} animating={loading} />
         {
           loading ? <></> : <>
             <View style={{ marginBottom: 15 }}>
-              <Text style={styles.headertext}>Saved</Text>
+              <Text style={[styles.headertext, textStyles]}>Saved</Text>
             </View>
             <View>
               <FlatList
                 style={{ height: '90%' }}
-                data={Placesdata}
+                data={placesdata}
                 renderItem={renderItem}
               />
             </View>
