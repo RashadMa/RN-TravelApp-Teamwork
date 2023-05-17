@@ -15,7 +15,7 @@ export const getUserPlaces = async () => {
     if (userCategories !== null) {
       return JSON.parse(userCategories??'');
     } else {
-      return '';
+      return [];
     }
   } catch (error) {
     console.log(error);
