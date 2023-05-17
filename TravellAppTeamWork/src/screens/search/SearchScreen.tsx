@@ -15,14 +15,10 @@ const SearchScreen = ({ navigation }: any) => {
   const { theme, toggleTheme } = useContext(ThemeContext);
 
   const containerStyles = {
-    backgroundColor: theme === 'dark' ? '#1c1c1c' : '#fff',
+    backgroundColor: theme === 'dark' ? '#fff' : '#1c1c1c',
   };
   const inputBgc = {
-    backgroundColor: theme === 'dark' ? '#262626' : 'lightgrey',
-  };
-
-  const catList = {
-    backgroundColor: theme === 'dark' ? '#262626' : 'lightgrey',
+    backgroundColor: theme === 'dark' ? 'lightgrey' : '#262626',
   };
 
   useEffect(() => {

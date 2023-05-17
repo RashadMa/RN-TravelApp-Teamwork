@@ -17,18 +17,10 @@ const Homescreen = ({ item, navigation }: any) => {
   //#region styles
 
   const containerStyles = {
-    backgroundColor: theme === 'dark' ? '#1c1c1c' : '#fff',
-  };
-
-  const textStyles = {
-    color: theme === 'dark' ? '#fff' : '#1c1c1c',
-  };
-
-  const buttonStyles = {
     backgroundColor: theme === 'dark' ? '#fff' : '#1c1c1c',
   };
 
-  const buttonTextStyles = {
+  const textStyles = {
     color: theme === 'dark' ? '#1c1c1c' : '#fff',
   };
 

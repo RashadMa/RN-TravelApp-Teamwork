@@ -16,7 +16,7 @@ const TabMain = () => {
                         tabBarShowLabel: false,
                         tabBarStyle: {
                               borderTopWidth: 0,
-                              backgroundColor: theme === 'dark' ? '#1c1c1c' : '#ffff'
+                              backgroundColor: theme === 'dark' ? '#fff' : '#1c1c1c'
                         }
                   }}>
                         <Tab.Screen name='homestack' component={HomeStack}

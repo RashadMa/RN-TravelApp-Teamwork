@@ -10,21 +10,19 @@ const PlaceDetails = ({ route }: any) => {
   let { id } = route.params;
 
   const containerStyles = {
-    backgroundColor: theme === 'dark' ? '#1c1c1c' : '#fff',
-  };
-
-  const textStyles = {
-    color: theme === 'dark' ? '#fff' : '#1c1c1c',
-  };
-
-  const buttonStyles = {
-    marginTop: 20,
-    padding: 10,
     backgroundColor: theme === 'dark' ? '#fff' : '#1c1c1c',
   };
 
-  const buttonTextStyles = {
+  const textStyles = {
     color: theme === 'dark' ? '#1c1c1c' : '#fff',
+  };
+
+  const info = {
+    color: theme === 'dark' ? '#1c1c1c' : '#E8E8E8',
+  };
+
+  const infoTitle = {
+    color: theme === 'dark' ? '#1c1c1c' : '#B9B9B9',
   };
 
   const goToMap = () => {
@@ -67,14 +65,14 @@ const PlaceDetails = ({ route }: any) => {
           </View>
           <View style={styles.infoWrapper}>
             <View>
-              <Text style={[styles.info, textStyles]}>
+              <Text style={[styles.info, info]}>
                 Information
               </Text>
             </View>
             <View>
-              <Text style={[styles.infoText, textStyles]}>🕘  Mon - Fri, {detail.openCloseTime}</Text>
-              <Text style={[styles.infoText, textStyles]}>📞  {detail.phone}</Text>
-              <Text style={[styles.infoText, textStyles]}>📍  {detail.adress}</Text>
+              <Text style={[styles.infoText, infoTitle]}>🕘  Mon - Fri, {detail.openCloseTime}</Text>
+              <Text style={[styles.infoText, infoTitle]}>📞  {detail.phone}</Text>
+              <Text style={[styles.infoText, infoTitle]}>📍  {detail.adress}</Text>
             </View>
           </View>
           <View style={styles.mapWrapper}>
@@ -94,7 +92,7 @@ const PlaceDetails = ({ route }: any) => {
               />
             </MapView>
             <TouchableOpacity onPress={goToMap} style={styles.mapButton}>
-              <Text style={[styles.btnText, buttonTextStyles]}>Go to map</Text>
+              <Text style={styles.btnText}>Go to map</Text>
             </TouchableOpacity>
           </View>
         </View>

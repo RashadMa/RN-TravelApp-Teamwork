@@ -12,11 +12,11 @@ const SavedCard = ({ item }: any) => {
   const { theme, toggleTheme } = useContext(ThemeContext);
 
   const containerStyles = {
-    backgroundColor: theme === 'dark' ? '#1c1c1c' : '#fff',
+    backgroundColor: theme === 'dark' ? '#fff' : '#1c1c1c',
   };
 
   const textStyles = {
-    color: theme === 'dark' ? '#fff' : '#1c1c1c',
+    color: theme === 'dark' ? '#1c1c1c' : '#fff',
   };
   
   useEffect(() => {

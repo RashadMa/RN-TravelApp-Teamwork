@@ -11,27 +11,10 @@ const SearchCard = ({ item }: any) => {
   const [isSaved, setisSaved] = useState(false)
   const { theme } = useContext(ThemeContext);
 
-  const containerStyles = {
-    backgroundColor: theme === 'dark' ? '#1c1c1c' : '#fff',
-  };
-
-  const inputBgc = {
-    backgroundColor: theme === 'dark' ? '#262626' : 'lightgrey',
-  };
-
   const textStyles = {
-    color: theme === 'dark' ? '#fff' : '#1c1c1c',
-  };
-
-  const buttonStyles = {
-    marginTop: 20,
-    padding: 10,
-    backgroundColor: theme === 'dark' ? '#fff' : '#1c1c1c',
-  };
-
-  const buttonTextStyles = {
     color: theme === 'dark' ? '#1c1c1c' : '#fff',
   };
+
   const isFocused = useIsFocused();
   useEffect(() => {
     let network = new BaseNetwork();

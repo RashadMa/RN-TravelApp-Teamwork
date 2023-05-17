@@ -1,25 +1,24 @@
-import { StyleSheet, Text, View, SafeAreaView, FlatList, TouchableOpacity } from 'react-native'
-import React, { useContext, useState } from 'react'
-import { getUserPlaces } from '../../utils/storage/userSavedPlacesHelper'
 import { useFocusEffect } from '@react-navigation/native'
-import SavedCard from '../../components/tabComponents/SavedCard'
+import React, { useContext, useState } from 'react'
+import { FlatList, SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { ActivityIndicator } from 'react-native-paper'
-import MapView from 'react-native-maps'
+import SavedCard from '../../components/tabComponents/SavedCard'
 import { ThemeContext } from '../../context/ThemeContext'
+import { getUserPlaces } from '../../utils/storage/userSavedPlacesHelper'
 
-const SavedScreen = ({navigation}: any) => {
+const SavedScreen = ({ navigation }: any) => {
   const [placesdata, setPlacesdata] = useState([])
   const [loading, setLoading] = useState(true)
   const { theme } = useContext(ThemeContext);
 
   const containerStyles = {
-    backgroundColor: theme === 'dark' ? '#1c1c1c' : '#fff',
+    backgroundColor: theme === 'dark' ? '#fff' : '#1c1c1c',
   };
 
   const textStyles = {
-    color: theme === 'dark' ? '#fff' : '#1c1c1c',
+    color: theme === 'dark' ? '#1c1c1c' : '#fff',
   };
-  
+
   useFocusEffect(() => {
     getUserPlaces().then((res) => {
       setPlacesdata(res);
@@ -44,13 +43,15 @@ const SavedScreen = ({navigation}: any) => {
             <View style={{ marginBottom: 15 }}>
               <Text style={[styles.headertext, textStyles]}>Saved</Text>
             </View>
-            <View>
-              <FlatList
-                style={{ height: '90%' }}
-                data={placesdata}
-                renderItem={renderItem}
-              />
-            </View>
+            {
+              placesdata ? <Text style={[styles.headertext, textStyles]}>No Saved Places</Text> : <View>
+                <FlatList
+                  style={{ height: '90%' }}
+                  data={placesdata}
+                  renderItem={renderItem}
+                />
+              </View>
+            }
           </>
         }
       </View>

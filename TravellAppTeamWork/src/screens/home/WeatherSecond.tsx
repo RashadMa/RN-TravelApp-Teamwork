@@ -10,7 +10,7 @@ const App = ({ textStyles }: any) => {
       const { theme } = useContext(ThemeContext);
 
       const containerStyles = {
-            backgroundColor: theme === 'dark' ? '#262626' : 'lightgrey',
+            backgroundColor: theme === 'dark' ? 'lightgrey' : '#262626',
           };
 
       useEffect(() => {
@@ -84,12 +84,12 @@ const App = ({ textStyles }: any) => {
       return (
             <View>
                   <View style={styles.weatherWrapper}>
-                        <View style={[{ width: "65%", height: 35, backgroundColor: "#262626", borderRadius: 10, justifyContent: 'center', paddingLeft: 10 }, containerStyles]}>
-                              <Text style={[styles.weatherCity, textStyles]}>📍  {cityName}, {countryName}</Text>
+                        <View style={{ width: "65%", height: 35, backgroundColor: "#262626", borderRadius: 10, justifyContent: 'center', paddingLeft: 10 }}>
+                              <Text style={styles.weatherCity}>📍  {cityName}, {countryName}</Text>
                         </View>
-                        <View style={[styles.deg, containerStyles]}>
-                              <Text style={[styles.weatherDat, textStyles]}>{weatherIconName}</Text>
-                              <Text style={[styles.weatherData, textStyles]}> {temp}°C</Text>
+                        <View style={styles.deg}>
+                              <Text style={styles.weatherData}>{weatherIconName}</Text>
+                              <Text style={styles.weatherData}> {temp}°C</Text>
                         </View>
                   </View>
             </View>

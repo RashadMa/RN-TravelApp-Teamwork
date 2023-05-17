@@ -25,7 +25,7 @@ const App = () => {
       >
         <FirstLoginProvider>
           <SelectedCategoriesProvider>
-            <ThemeProviderz>
+            <ThemeProvider>
               <Opening />
             </ThemeProvider>
           </SelectedCategoriesProvider>

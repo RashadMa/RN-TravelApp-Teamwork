@@ -20,6 +20,7 @@
     "@types/react-native-maps": "^0.24.2",
     "axios": "^1.4.0",
     "react": "18.2.0",
+    "react-i18next": "^12.2.2",
     "react-native": "0.71.7",
     "react-native-geocoding": "^0.5.0",
     "react-native-geolocation-service": "^5.3.1",
