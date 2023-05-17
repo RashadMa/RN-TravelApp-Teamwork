@@ -11,7 +11,7 @@ const SavedScreen = ({ navigation }: any) => {
   const [placesdata, setPlacesdata] = useState([])
   const [loading, setLoading] = useState(true)
   const { theme } = useContext(ThemeContext);
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   const containerStyles = {
     backgroundColor: theme === 'dark' ? '#fff' : '#1c1c1c',
   };
@@ -44,15 +44,13 @@ const SavedScreen = ({ navigation }: any) => {
             <View style={{ marginBottom: 15 }}>
               <Text style={[styles.headertext, textStyles]}>{t('Saved')}</Text>
             </View>
-            {
-              placesdata ? <Text style={[styles.headertext, textStyles]}>No Saved Places</Text> : <View>
-                <FlatList
-                  style={{ height: '90%' }}
-                  data={placesdata}
-                  renderItem={renderItem}
-                />
-              </View>
-            }
+            <View>
+              <FlatList
+                style={{ height: '90%' }}
+                data={placesdata}
+                renderItem={renderItem}
+              />
+            </View>
           </>
         }
       </View>
