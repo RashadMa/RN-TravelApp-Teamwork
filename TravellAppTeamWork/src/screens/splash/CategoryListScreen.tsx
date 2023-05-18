@@ -9,85 +9,85 @@ import { ActivityIndicator } from 'react-native-paper';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const CategoryListScren = ({ navigation }: any) => {
-  const [categories, setCategories] = useState<Category[]>([]);
-  const [categoriesData, setCategoriesData] = useState<Category[]>([]);
-  const { firstLogin, setFirstLogin } = useContext(FirstLoginContext);
-  const [loading, setLoading] = useState(true);
-  const [selectedCategories, setSelectedCategories] = useState<any>([]);
+      const [categories, setCategories] = useState<Category[]>([]);
+      const [categoriesData, setCategoriesData] = useState<Category[]>([]);
+      const { firstLogin, setFirstLogin } = useContext(FirstLoginContext);
+      const [loading, setLoading] = useState(true);
+      const [selectedCategories, setSelectedCategories] = useState<any>([]);
 
-const handleCategoryPress = async (item: any) => {
-      const isCategorySelected = selectedCategories.includes(item);
-    
-      let updatedCategories: string[];
-    
-      if (isCategorySelected) {
-        updatedCategories = selectedCategories.filter(
-          (selectedCategory: any) => selectedCategory !== item
-        );
-      } else {
-        updatedCategories = [...selectedCategories, item];
-      }
-    
-      setSelectedCategories(updatedCategories);
-      await AsyncStorage.setItem('selectedCategories', JSON.stringify(updatedCategories));
-    };
+      const handleCategoryPress = async (item: any) => {
+            const isCategorySelected = selectedCategories.includes(item);
 
-    useEffect(() => {
-      AsyncStorage.getItem('userCategories').then((res) => {console.log('res', res)})
-    }, [])
+            let updatedCategories: string[];
 
-  useEffect(() => {
-    let baseNetwork = new BaseNetwork();
-    baseNetwork
-      .getAll('categories')
-      .then(data => {
-        setCategories(data);
-        setCategoriesData(data);
-        setLoading(false);
-      })
-      .catch(err => {
-        console.log('Error ', err);
-      });
-  }, []);
+            if (isCategorySelected) {
+                  updatedCategories = selectedCategories.filter(
+                        (selectedCategory: any) => selectedCategory !== item
+                  );
+            } else {
+                  updatedCategories = [...selectedCategories, item];
+            }
 
-  const renderItem = ({ item }: any) => {
-    let style = {};
-
-    let categoryControl = categories.find(q => q.id == item.id);
-
-    if (categoryControl)
-      style = {
-        borderColor: '#494949',
+            setSelectedCategories(updatedCategories);
+            await AsyncStorage.setItem('selectedCategories', JSON.stringify(updatedCategories));
       };
 
-    return (
-      <Pressable style={styles.box} onPress={() => handleCategoryPress(item)}>
-        <View style={[styles.hello, style]}>
-          <Text style={styles.icon}>{item.icon}</Text>
-          <Text style={styles.text}>{item.name}</Text>
-        </View>
-      </Pressable>
-    );
-  };
+      useEffect(() => {
+            AsyncStorage.getItem('userCategories').then((res) => { console.log('res', res) })
+      }, [])
 
-  const next = () => {
-    if (categories.length > 0) {
-      userSavedCategoriesHelper(selectedCategories)
-        .then(res => {
-          console.log('res', res);
-          setFirstLogin(false);
-          console.log(selectedCategories);
-          AsyncStorage.setItem('userCategories', JSON.stringify(selectedCategories));
-          console.log('userCategories', selectedCategories);
-          
-        })
-        .catch(err => {
-          console.log('Error saving categories to AsyncStorage:', err);
-        });
-    } else {
-      setFirstLogin(false);
-    }
-  };
+      useEffect(() => {
+            let baseNetwork = new BaseNetwork();
+            baseNetwork
+                  .getAll('categories')
+                  .then(data => {
+                        setCategories(data);
+                        setCategoriesData(data);
+                        setLoading(false);
+                  })
+                  .catch(err => {
+                        console.log('Error ', err);
+                  });
+      }, []);
+
+      const renderItem = ({ item }: any) => {
+            let style = {};
+
+            let categoryControl = categories.find(q => q.id == item.id);
+
+            if (categoryControl)
+                  style = {
+                        borderColor: '#494949',
+                  };
+
+            return (
+                  <Pressable style={styles.box} onPress={() => handleCategoryPress(item)}>
+                        <View style={[styles.hello, style]}>
+                              <Text style={styles.icon}>{item.icon}</Text>
+                              <Text style={styles.text}>{item.name}</Text>
+                        </View>
+                  </Pressable>
+            );
+      };
+
+      const next = () => {
+            if (categories.length > 0) {
+                  userSavedCategoriesHelper(selectedCategories)
+                        .then(res => {
+                              console.log('res', res);
+                              setFirstLogin(false);
+                              console.log(selectedCategories);
+                              AsyncStorage.setItem('userCategories', JSON.stringify(selectedCategories));
+                              console.log('userCategories', selectedCategories);
+
+                        })
+                        .catch(err => {
+                              console.log('Error saving categories to AsyncStorage:', err);
+                        });
+            } else {
+                  setFirstLogin(false);
+            }
+      };
 
       return (
             <SafeAreaView style={styles.container}>

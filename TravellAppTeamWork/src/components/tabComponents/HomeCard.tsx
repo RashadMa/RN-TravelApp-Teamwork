@@ -16,24 +16,24 @@ const HomeCard = ({ item, textStyles }: any) => {
     useEffect(() => {
         let network = new BaseNetwork();
         network.getAll('places').then((res) => {
-          setalldata(res);
+            setalldata(res);
         })
-      }, [])
-    
-      useEffect(() => {
-            if (isFocused) {
-                getUserPlaces().then((res: any) => {
-                  setdata(res);
-                  if (res.find((e: any) => e.id == item.id)) {                
+    }, [])
+
+    useEffect(() => {
+        if (isFocused) {
+            getUserPlaces().then((res: any) => {
+                setdata(res);
+                if (res.find((e: any) => e.id == item.id)) {
                     setisSaved(true)
                     return;
-                  }
-                })
-          
-              }
-      }, [isFocused])
-    
-    
+                }
+            })
+
+        }
+    }, [isFocused])
+
+
     const Save = () => {
         if (!isSaved) {
             saveUserPlaces([...data, item])
@@ -145,7 +145,7 @@ const HomeCard = ({ item, textStyles }: any) => {
             return false;
         }
     };
-    
+
 
     return (
         <View style={styles.restaurants}>
@@ -195,7 +195,7 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: '#262626',
         borderRadius: 12,
-        marginRight: 15
+        marginRight: 15,
     },
     rstName: {
         color: '#fff',

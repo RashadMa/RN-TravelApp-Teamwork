@@ -1,12 +1,13 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, { useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { SafeAreaView, SectionList, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { SafeAreaView, SectionList, StyleSheet, Text, TouchableOpacity, View,FlatList } from 'react-native';
 import { ActivityIndicator } from 'react-native-paper';
 import HomeCard from '../../components/tabComponents/HomeCard';
 import { ThemeContext } from '../../context/ThemeContext';
 import { BaseNetwork } from '../../network/api';
 import WeatherSecond from './WeatherSecond';
+import {  } from 'react-native-gesture-handler';
 
 const Homescreen = ({ item, navigation }: any) => {
   const [restaurant, setRestaurant] = useState<any[]>([]);
@@ -65,7 +66,7 @@ const Homescreen = ({ item, navigation }: any) => {
     )
   }
 
-  const sections = selectedCategories.map((category) => {
+  const sections :any = selectedCategories.map((category) => {
     const filteredPlaces = restaurant.filter((place) => place.categoryId === category.id);
     return { title: category.name, data: filteredPlaces };
   });
@@ -81,18 +82,50 @@ const Homescreen = ({ item, navigation }: any) => {
                 <WeatherSecond textStyles={textStyles} />
               }
               <View>
-                <SectionList
-                // horizontal={true}
+                {/* <SectionList
+                  showsHorizontalScrollIndicator={false}
+                  horizontal={true}
                   sections={sections}
                   keyExtractor={(item) => item.id.toString()}
                   renderSectionHeader={({ section: { title } }) => (
                     <Text style={[styles.headerText, textStyles]}>{title}s nearby</Text>
+                    
                   )}
                   renderItem={({ item }) => (
                     <TouchableOpacity onPress={() => navigation.navigate('placesdetails', { id: item.id })} >
                       <HomeCard textStyles={textStyles} item={item} />
                     </TouchableOpacity>
                   )}
+                /> */}
+                <SectionList
+                 renderItem={()=>{
+                  return null
+                }}
+                  showsHorizontalScrollIndicator={false}
+                  // horizontal={true}
+                  sections={sections}
+                  contentContainerStyle={{paddingBottom:150}}
+                  keyExtractor={(item) => item.id.toString()}
+                  renderSectionHeader={({ section }:any) => (
+                    <>
+                    <Text style={[styles.headerText, textStyles]}>{section.title}s nearby</Text>
+                    <FlatList
+                    horizontal={true}
+                      data={section.data}
+                      showsHorizontalScrollIndicator={false}
+                      renderItem={({ item }:any) => (
+                        
+                        <TouchableOpacity onPress={() => navigation.navigate('placesdetails', { id: item.id })} >
+                          <HomeCard textStyles={textStyles} item={item} />
+                        </TouchableOpacity>
+                      )}
+                      
+                    />
+                    
+                    </>
+                    
+                  )}
+                 
                 />
               </View>
             </View>
@@ -127,6 +160,8 @@ const styles = StyleSheet.create({
     borderColor: '#262626',
     borderRadius: 12,
     marginRight: 15
+
+
   },
   rstName: {
     color: '#fff',

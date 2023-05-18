@@ -30,6 +30,11 @@ const App: React.FC = () => {
             backgroundColor: theme === 'dark' ? '#fff' : '#1c1c1c',
       };
 
+      const textStyles = {
+            color: theme === 'dark' ? '#1c1c1c' : '#fff',
+      };
+
+
       return (
             <SafeAreaView style={containerStyles}>
                   <View style={styles.container}>
@@ -41,28 +46,27 @@ const App: React.FC = () => {
                   </View>
 
                   <TouchableOpacity onPress={() => changeLanguage('az')}>
-                        <Text style={{ fontSize: 30, fontWeight: '700', color: 'white' }}>Azerbaijani</Text>
+                        <Text style={[{ fontSize: 30, fontWeight: '700', color: 'white' }, textStyles]}>Azerbaijani</Text>
 
                   </TouchableOpacity>
                   <TouchableOpacity onPress={() => changeLanguage('en')}>
-                        <Text style={{ fontSize: 30, fontWeight: '700', color: 'white' }}>English</Text>
+                        <Text style={[{ fontSize: 30, fontWeight: '700', color: 'white' }, textStyles]}>English</Text>
 
                   </TouchableOpacity>
                   <TouchableOpacity onPress={() => changeLanguage('ru')}>
-                        <Text style={{ fontSize: 30, fontWeight: '700', color: 'white' }}>Russian</Text>
+                        <Text style={[{ fontSize: 30, fontWeight: '700', color: 'white' }, textStyles]}>Russian</Text>
 
                   </TouchableOpacity>
                   <TouchableOpacity onPress={() => changeLanguage('tr')}>
-                        <Text style={{ fontSize: 30, fontWeight: '700', color: 'white' }}>Turkish</Text>
+                        <Text style={[{ fontSize: 30, fontWeight: '700', color: 'white' }, textStyles]}>Turkish</Text>
 
                   </TouchableOpacity>
                   <TouchableOpacity onPress={() => changeLanguage('de')}>
-                        <Text style={{ fontSize: 30, fontWeight: '700', color: 'white' }}>German</Text>
+                        <Text style={[{ fontSize: 30, fontWeight: '700', color: 'white' }, textStyles]}>German</Text>
 
                   </TouchableOpacity>
                   <TouchableOpacity onPress={() => changeLanguage('kr')}>
-                        <Text style={{ fontSize: 30, fontWeight: '700', color: 'white' }}>Korean</Text>
-
+                        <Text style={[{ fontSize: 30, fontWeight: '700', color: 'white' }, textStyles]}>Korean</Text>
                   </TouchableOpacity>
             </SafeAreaView>
       );

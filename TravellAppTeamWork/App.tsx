@@ -1,6 +1,6 @@
 import { NavigationContainer } from '@react-navigation/native'
 import React, { useEffect } from 'react'
-import { StyleSheet } from 'react-native'
+import { LogBox, StyleSheet } from 'react-native'
 import { FirstLoginProvider } from './src/context/FirstLoginContext'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import SplashScreen from 'react-native-splash-screen'
@@ -9,10 +9,11 @@ import { SelectedCategoriesProvider } from './src/context/SelectedCategoriesCont
 import { ThemeProvider } from './src/context/ThemeContext'
 
 const App = () => {
+  // LogBox.ignoreAllLogs()
   useEffect(() => {
     SplashScreen.hide();
   }, [])
-  // AsyncStorage.clear();r
+  // AsyncStorage.clear();
 
   return (
     <>
