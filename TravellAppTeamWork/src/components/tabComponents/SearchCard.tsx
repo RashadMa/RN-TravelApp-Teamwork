@@ -1,9 +1,9 @@
-import { useFocusEffect, useIsFocused } from '@react-navigation/native'
+import { useIsFocused } from '@react-navigation/native'
 import React, { useContext, useEffect, useState } from 'react'
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { ThemeContext } from '../../context/ThemeContext'
 import { BaseNetwork } from '../../network/api'
 import { getUserPlaces, saveUserPlaces } from '../../utils/storage/userSavedPlacesHelper'
-import { ThemeContext } from '../../context/ThemeContext'
 
 const SearchCard = ({ item }: any) => {
   const [data, setdata] = useState<any[]>([])
@@ -24,19 +24,17 @@ const SearchCard = ({ item }: any) => {
   }, [])
 
   useEffect(() => {
-        if (isFocused) {
-            getUserPlaces().then((res: any) => {
-              setdata(res);
-              if (res.find((e: any) => e.id == item.id)) {                
-                setisSaved(true)
-                return;
-              }
-            })
-      
-          }
-  }, [isFocused])
+    if (isFocused) {
+      getUserPlaces().then((res: any) => {
+        setdata(res);
+        if (res.find((e: any) => e.id == item.id)) {
+          setisSaved(true)
+          return;
+        }
+      })
 
-  
+    }
+  }, [isFocused])
 
   const Save = () => {
     if (!isSaved) {

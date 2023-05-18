@@ -29,7 +29,6 @@ const HomeCard = ({ item, textStyles }: any) => {
                     return;
                 }
             })
-
         }
     }, [isFocused])
 
@@ -145,7 +144,6 @@ const HomeCard = ({ item, textStyles }: any) => {
             return false;
         }
     };
-
 
     return (
         <View style={styles.restaurants}>
