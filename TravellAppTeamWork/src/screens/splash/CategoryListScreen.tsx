@@ -14,56 +14,23 @@ const CategoryListScren = ({ navigation }: any) => {
   const { firstLogin, setFirstLogin } = useContext(FirstLoginContext);
   const [loading, setLoading] = useState(true);
   const [selectedCategories, setSelectedCategories] = useState<any>([]);
-    
-//   const categoryOperation = (item: Category) => {
-//     let categoryControl = categories.find(q => q.id == item.id);
-//     if (categoryControl) {
-//       let filteredCategories = categories.filter(q => q.id !== item.id);
-//       let selected  = categories.filter(c => c.id == item.id);
-//       setSelectedCategories([item, selected]);
-//       setCategories(filteredCategories);
-//       // setSelectedCategories(filteredCategories); 
-//       console.log(selectedCategories, 'selectedCategories');
-      
-//     } else {
-//       setCategories([...categories, item]);
-//     }
-//   };
-
-
-
-
-
 
 const handleCategoryPress = async (item: any) => {
-      // Check if the category is already selected
       const isCategorySelected = selectedCategories.includes(item);
     
       let updatedCategories: string[];
     
       if (isCategorySelected) {
-        // Category is already selected, remove it from the selectedCategories array
         updatedCategories = selectedCategories.filter(
           (selectedCategory: any) => selectedCategory !== item
         );
       } else {
-        // Category is not selected, add it to the selectedCategories array
         updatedCategories = [...selectedCategories, item];
       }
     
       setSelectedCategories(updatedCategories);
-    
-      // Store the updated selectedCategories array in AsyncStorage
       await AsyncStorage.setItem('selectedCategories', JSON.stringify(updatedCategories));
     };
-    
-  
-
-
-
-
-
-  
 
     useEffect(() => {
       AsyncStorage.getItem('userCategories').then((res) => {console.log('res', res)})

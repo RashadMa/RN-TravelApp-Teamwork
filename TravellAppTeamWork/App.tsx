@@ -13,16 +13,10 @@ const App = () => {
     SplashScreen.hide();
   }, [])
   // AsyncStorage.clear();r
-  
+
   return (
     <>
-      <NavigationContainer 
-      // theme={{
-        // colors: {
-        //   background:"#1c1c1c",
-        // }
-      // }}
-      >
+      <NavigationContainer>
         <FirstLoginProvider>
           <SelectedCategoriesProvider>
             <ThemeProvider>

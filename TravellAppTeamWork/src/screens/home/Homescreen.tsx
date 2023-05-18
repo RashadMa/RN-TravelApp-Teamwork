@@ -1,13 +1,12 @@
-import { FlatList, SafeAreaView, StyleSheet, Text, TouchableOpacity, View, ScrollView, SectionList } from 'react-native'
-import React, { useContext, useEffect, useState } from 'react'
-import { BaseNetwork } from '../../network/api';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import React, { useContext, useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { SafeAreaView, SectionList, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { ActivityIndicator } from 'react-native-paper';
 import HomeCard from '../../components/tabComponents/HomeCard';
-import WeatherSecond from './WeatherSecond';
-import { getUserCategories } from '../../utils/storage/userSavedCategoriesHelper';
 import { ThemeContext } from '../../context/ThemeContext';
-import { useTranslation } from 'react-i18next';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { BaseNetwork } from '../../network/api';
+import WeatherSecond from './WeatherSecond';
 
 const Homescreen = ({ item, navigation }: any) => {
   const [restaurant, setRestaurant] = useState<any[]>([]);
@@ -19,7 +18,6 @@ const Homescreen = ({ item, navigation }: any) => {
   const [selectedCategories, setSelectedCategories] = useState<any[]>([]);
 
   useEffect(() => {
-    // Fetch the selected categories from AsyncStorage when the component mounts
     const fetchSelectedCategories = async () => {
       const storedCategories = await AsyncStorage.getItem('userCategories');
       if (storedCategories) {
@@ -29,8 +27,6 @@ const Homescreen = ({ item, navigation }: any) => {
     };
 
     fetchSelectedCategories();
-    // console.log(selectedCategories[0].id, 'userCategories');
-
   }, []);
 
   //#region styles
@@ -45,7 +41,6 @@ const Homescreen = ({ item, navigation }: any) => {
 
   //#endregion
 
-
   useEffect(() => {
     let baseNetwork = new BaseNetwork();
     baseNetwork.getAll('places')
@@ -53,28 +48,13 @@ const Homescreen = ({ item, navigation }: any) => {
         const rest = data.filter((q: any) => {
           return selectedCategories.map((category) => category.id === q.categoryId);
         });
-        // const htls = data.filter((q: any) => q.categoryId == 5);
-        // const selected = selectedCategories.filter((q: any) => q.id == data.categoryId);
-        // const filteredPlaces = data.filter(() => {
-
-        //   let a =  selectedCategories.filter((category) => category.id === data.categoryId);
-        //   console.log(a, 'a');
-        //   return 
-        // });
-        // console.log(selectedCategories[0].id, 'filteredPlaces');
         setRestaurant(rest);
-        // setHotels(htls);
         setLoading(false);
       }).catch(err => {
         console.log('Error ', err);
       })
   }, [])
 
-  // useEffect(() => {
-  //   getUserCategories().then((res) => {
-  //     setCategoriesData(res);
-  //   })
-  // }, [])
 
   const renderItem = ({ item }: any) => {
     return (<>
@@ -100,10 +80,9 @@ const Homescreen = ({ item, navigation }: any) => {
               {
                 <WeatherSecond textStyles={textStyles} />
               }
-              {/* <Text style={[styles.headerText, textStyles]}>{t('Restaurants nearby')}</Text> */}
               <View>
                 <SectionList
-                horizontal={true}
+                // horizontal={true}
                   sections={sections}
                   keyExtractor={(item) => item.id.toString()}
                   renderSectionHeader={({ section: { title } }) => (
@@ -115,23 +94,6 @@ const Homescreen = ({ item, navigation }: any) => {
                     </TouchableOpacity>
                   )}
                 />
-                {/* <FlatList
-                  data={restaurant}
-                  renderItem={renderItem}
-                  horizontal={true}
-                  showsHorizontalScrollIndicator={false}
-                /> */}
-              </View>
-            </View>
-            <View style={styles.headerWrapper}>
-              <Text style={[styles.headerText, textStyles]}>{t('Hotels nearby')}</Text>
-              <View>
-                {/* <FlatList
-                  data={hotels}
-                  renderItem={renderItem}
-                  horizontal={true}
-                  showsHorizontalScrollIndicator={false}
-                /> */}
               </View>
             </View>
           </View>
@@ -147,7 +109,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#1c1c1c',
-    // backgroundColor: theme === 'dark' ? '#1c1c1c' : '#fff',
   },
   headerWrapper: {
     marginVertical: 10
